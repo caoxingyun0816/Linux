@@ -1,0 +1,167 @@
+安装虚拟机
+安装Centos 7.4
+
+1.问题
+VM 12 注意一定要开启虚拟化技术
+可以用360的安全设置测试。
+下载centos并设置虚拟机安装centos7.4
+https://blog.csdn.net/qq_39135287/article/details/83993574
+
+https://blog.csdn.net/zkuncn/article/details/78452098
+
+账户用户密码
+root
+cxydy0816
+
+2.问题记录
+网络配置
+未安装软件
+
+general 481
+report 481 773
+
+773 837  717 
+customer_product 
+datavoc type
+
+配置IP地址，网关
+cd /etc/sysconfig/network-scripts/    //进入到network-scripts目录下  
+ 
+vi  ifcfg-eth0  //编辑配置文件 
+ 
+//修改以下内容
+BOOTPROTO=static  //启用静态IP地址
+#DEVICE=eth0     //注释掉DEVICE 或者 删除DEVICE
+ONBOOT=yes      //开启自动启用网络连接
+ 
+NAT模式
+ 
+//添加以下内容
+IPADDR=192.168.132.1      //设置IP地址
+NETMASK=255.255.255.0   //子网掩码 
+GATEWAY=192.168.131.2   //设置网关 同NAT设置
+
+重启网络服务
+service network restart
+
+设置DNS地址     
+vi /etc/resolv.conf    //编辑 resolv.conf文件
+nameserver 114.114.114.114   //添加DNS地址
+
+永久关闭 iptables
+
+systemctl stop firewalld.service  // 停止firewalld服务
+ 
+systemctl disable firewalld.service // 开机禁用firewalld服务
+
+永久关闭SELinux防火墙
+
+vi /etc/sysconfig/selinux       //编辑selinux文件
+ 
+SELINUX=disabled         //把文件中的SELINUX=enforcing 改成 SELINUX=disabled 即可
+ 
+sestatus    //查看SELinux状态
+
+权限
+chmod 777 
+
+重启
+reboot 
+
+虚拟机网络配置
+https://blog.csdn.net/zkuncn/article/details/78452098
+
+Linux 软件安装
+查看是否安装了软件
+rpm -qa|grep vim
+
+Linux /bin, /sbin, /usr/bin, /usr/sbin 区别
+bin: 
+bin为binary的简写主要放置一些系统的必备执行档例如:cat、cp、chmod df、dmesg、gzip、kill、ls、mkdir、more、mount、rm、su、tar等。
+
+/usr/bin:
+主要放置一些应用软件工具的必备执行档例如c++、g++、gcc、chdrv、diff、dig、du、eject、elm、free、gnome*、 zip、htpasswd、kfm、ktop、last、less、locale、m4、make、man、mcopy、ncftp、 newaliases、nslookup passwd、quota、smb*、wget等。
+
+/sbin: 
+主要放置一些系统管理的必备程序例如:cfdisk、dhcpcd、dump、e2fsck、fdisk、halt、ifconfig、ifup、 ifdown、init、insmod、lilo、lsmod、mke2fs、modprobe、quotacheck、reboot、rmmod、 runlevel、shutdown等
+
+/usr/sbin: 
+放置一些网路管理的必备程序例如:dhcpd、httpd、imap、in.*d、inetd、lpd、named、netconfig、nmbd、samba、sendmail、squid、swap、tcpd、tcpdump等
+
+/bin: 是系统的一些指令.
+
+/sbin: 一般是指超级用户指令.
+
+/usr/bin: 是你在后期安装的一些软件的运行脚本.
+
+
+综述：
+如果是用户和管理员必备的二进制文件，就会放在/bin；
+如果是系统管理员必备，但是一般用户根本不会用到的二进制文件，就会放在 /sbin。
+如果不是用户必备的二进制文件，多半会放在/usr/bin；
+如果不是系统管理员必备的工具，如网络管理命令，多半会放在/usr/sbin。
+
+linux 创建连接命令 ln -s 软链接
+这是linux中一个非常重要命令，请大家一定要熟悉。它的功能是为某一个文件在另外一个位置建立一个同不的链接，这个命令最常用的参数是-s,
+
+具体用法是：ln -s 源文件 目标文件。
+
+
+esc
+:wq 退出保存：q!直接退出
+
+ln -s /var/www/test /var/test
+
+创建/var/test 引向/var/www/test 文件夹 
+
+JavaMailSender
+Pay
+研究
+
+yum install的时候提示：Loaded plugins: fastestmirror
+
+
+
+fastestmirror是yum的一个加速插件，这里是插件提示信息是插件不能用了。
+
+不能用就先别用呗，禁用掉，先yum了再说。
+
+1.修改插件的配置文件
+
+# vi  /etc/yum/pluginconf.d/fastestmirror.conf  
+
+enabled = 1//由1改为0，禁用该插件
+
+...............................
+
+2.修改yum的配置文件
+
+# vi /etc/yum.conf
+
+.........................
+
+plugins=1//改为0，不使用插件
+
+安装
+
+
+解析不了域名
+vi /etc/resolv.conf
+在文件中添加如下两行：
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+
+在ifcfg-eth0 中也需要添加
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+
+保存后记得一定重启服务器
+如果配置都已经配置好了，仍然不想先重启下试试。。。。。
+
+重启
+
+安装软件
+查看是否安装了软件
+rpm -qa|grep vim
+
+yum serch applicationName 
