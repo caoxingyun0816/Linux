@@ -165,3 +165,4 @@ nameserver 8.8.4.4
 rpm -qa|grep vim
 
 yum serch applicationName 
+

@@ -1,0 +1,273 @@
+Linux 环境搭建
+1.安装java
+https://www.cnblogs.com/alwayswyy/p/5212471.html
+
+https://www.cnblogs.com/yjhkhnuje/p/9975307.html
+1.rpm下载地址
+
+http://www.oracle.com/technetwork/java/javase/downloads/index.html
+
+2.如果有安装openjdk 则卸载
+
+########检查####################
+
+[root@localhost ~]# rpm -qa | grep java
+tzdata-java-2014i-1.el7.noarch
+java-1.7.0-openjdk-headless-1.7.0.71-2.5.3.1.el7_0.x86_64
+java-1.7.0-openjdk-1.7.0.71-2.5.3.1.el7_0.x86_64
+##########卸载#################
+
+rpm -e --nodeps tzdata-java-2014i-1.el7.noarch
+rpm -e --nodeps java-1.7.0-openjdk-headless-1.7.0.71-2.5.3.1.el7_0.x86_64
+rpm -e --nodeps java-1.7.0-openjdk-1.7.0.71-2.5.3.1.el7_0.x86_64
+
+3.安装java rpm
+
+ rpm -ivh jdk-8u191-linux-x64.rpm 
+
+4.配置/etc/profile
+
+#java
+export JAVA_HOME=/usr/java/default
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+
+5.source /etc/profile
+
+
+2.mysql 安装
+https://blog.csdn.net/z13615480737/article/details/78906598
+ cd /usr/local/src/
+  wget http://repo.mysql.com/mysql57-community-release-el7-8.noarch.rpm 
+  rpm -ivh mysql57-community-release-el7-8.noarch.rpm 
+  yum -y install mysql-server 
+  配置文件：/etc/my.cnf 
+日志文件：/var/log/var/log/mysqld.log 
+服务启动脚本：/usr/lib/systemd/system/mysqld.service 
+socket文件：/var/run/mysqld/mysqld.pid
+
+启动mysql服务
+
+service mysqld restart
+
+ 重置密码
+
+grep "password" /var/log/mysqld.log   
+
+输入 mysql -u root -p   密码 进入  
+
+修改密码
+alter user 'root'@'localhost' identified by 'Root!!2018';   
+
+最后记得刷新权限；
+
+flush privileges 
+
+也可以 直接再添加新用户     
+
+CREATE USER ‘root‘@‘%‘ IDENTIFIED BY ‘您的密码‘;
+grant all on *.* to 'root001'@'%' identified by 'Root@@'  with grant option;
+
+增加root用户指定可以任意IP登录，如果想限制只能让指定IP登录请把%替换成IP地址
+
+3.安装 wget lrzsz
+ yum -y install wget
+ yum -y install lrzsz
+
+4.部署springboot项目
+注意pom文件中加入打包插件
+ <build>
+        <plugins>
+            <!--该插件是用来项目打包得，将项目引用的其他的jar都打入到jar中，使打出的jar包是可执行的服务-->
+            <!--打包后就可以将jar上传到服务器上然后用java命令执行 java -jar a.jar-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.1.3.RELEASE</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <!--重新打包-->
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <!--打包的最终名称-->
+        <finalName>demo</finalName>
+</build>
+
+5.用lrzsz上传文件
+rz -y 选择文件
+记得在shell终端中操作。
+例如CRT
+
+6.java -jar 启动
+启动springboot项目
+#!/bin/sh
+jps | grep purchase-service
+while [ $? -eq 0 ]
+do
+ kill `jps | grep purchase-service | awk '{print $1}'`
+ sleep 2
+ jps | grep purchase-service
+done
+sleep 5
+ nohup java -Dspring.profiles.active=test -Dspring.profiles.url=http://192.168.1.132:1001 -DlogPath=/usr/project/ecmoho-purchase-service/log/ -DdefaultLevel=info -DlogstashUrl=udp:192.168.1.132  -jar /usr/project/ecmoho-purchase-service
+/target/ecmoho-purchase-service-1.0.0.jar > /usr/project/ecmoho-purchase-service/sysetm_log.log 2>&1 &
+echo "Finished"
+
+nohup
+nohup 不挂断运行的命令，当终端关闭或CTRL+C的时候，程序依旧运行
+java -jar 方式运行springboot项目
+前台启动
+java -jar XXX.jar
+
+指定启动内存大小
+java -Xms1024m -Xmx1024m -Xmn1024m -server -jar boot.jar
+
+后台启动
+java -jar xxx.jar &
+区别:前台启动ctrl+c就会关闭程序,后台启动ctrl+c不会关闭程序
+制定控制台的标准输出
+java -jar xxx.jar > catalina.out  2>&1 & 
+ 
+catalina.out将标准输出指向制定文件catalina.out
+2>&1 输出所有的日志文件
+& 后台启动
+
+
+#!/bin/sh
+jps | grep product-service
+while [ $? -eq 0 ]
+do
+ kill `jps | grep product-service | awk '{print $1}'`
+ sleep 5
+ jps | grep product-service
+done
+sleep 8
+ nohup java -Dspring.profiles.active=test -Dspring.profiles.url=http://192.168.1.132:1001 -DlogPath=/usr/project/ecmoho-product-service/log/ -DdefaultLevel=info -DlogstashUrl=udp:192.168.1.132  -jar /usr/project/ecmoho-product-service/target/ecmoho-product-service-1.0.0.jar > /usr/project/ecmoho-product-service/sysetm_log.log 2>&1 &
+echo "Finished"
+
+8 Linux命令
+yum search vim
+rpm -qa | grep vim
+yum -y install vim*
+
+查看磁盘使用情况
+df -k/-m/-g 以k/m/g的方式查看磁盘情况
+
+查看进程
+jobs和ps,区别是jobs用于查看当前终端后台运行的任务，换了终端就看不到了。而ps命令用于查看瞬间进程的动态，可以看到别的终端运行的后台进程。
+
+ps -aux     #a:显示所有程序  u:以用户为主的格式来显示   x:显示所有程序，不以终端机来区分
+ps -le #查看系统中所有进程，使用Linux标准命令格式
+
+选项
+
+  -a：显示一个终端的所有进程，除了会话引线
+
+  -u：显示进程的归属用户及内存的使用情况
+
+  -x：显示没有控制终端的进程
+
+  -l：长格式显示。显示更加详细的信息
+
+  -e：显示所有进程，和-A作用一致
+
+
+
+
+
+ps命令的输出
+
+USER：该进程是由哪个用户产生的
+
+PID：进程的ID号
+
+%CPU：该进程占用CPU资源的百分比，占用越高，进程越耗费资源
+
+%MEM：该进程占用物理内存的百分比，占用越高，进程越耗费资源
+
+VSZ：该进程占用虚拟内存的大小，单位KB 
+
+RSS：该进程占用实际物理内存的大小，单位KB
+
+TTY：该进程是在哪个终端中运行的。其中tty1-tty7代表本地控制台终端，tty1-tty6是本地的字符界面终端，tty7是图形终端。pts/0-255代表虚拟终端。
+
+STAT：进程状态。常见的状态有：
+
+    R：运行
+
+    S：睡眠
+
+    T：停止状态
+
+    s：包含子进程
+
+    +：位于后台
+
+START：该进程的启动时间
+
+TIME：该进程占用CPU的运算时间，注意不是系统时间
+
+COMMAND：产生此进程的命令名
+
+
+kill命令：结束进程
+
+     （1）通过jobs命令查看jobnum，然后执行   kill %jobnum
+
+     （2）通过ps命令查看进程号PID，然后执行  kill %PID
+
+       如果是前台进程的话，直接执行 Ctrl+c 就可以终止了
+
+killall     java程序员最喜欢用killall -9 java吧
+w           查看登录用户和他们正在做什么，也可以看看系统的load。load太高，就该找找原因了。
+who         查看当前用户的便当情况
+
+查看RAM使用情况最简单的方法是通过命令：cat /proc/meminfo； 
+
+free total : 总计物理内存的大小。 
+used : 已使用多大。 
+free : 可用有多少。 
+Shared : 多个进程共享的内存总额。 
+Buffers/cached : 磁盘缓存的大小。 
+-/+ buffers/cached) : 
+used:已使用多大; 
+free:可用有多少。 
+
+查询某个软件的安装路劲
+
+rpm -ql jenkins
+
+查询某个端口的使用情况
+netstat -tunlp | grep 18888
+
+使修改的配置生效
+source /etc/profile
+亦可以重启 reboot
+
+查询某个软件的路径
+whereis git 
+
+流程
+下载安装包。解压。配置配置文件，端口，路径等等。然后启动。
+java项目用java -jar  
+其它的一般有启动脚本
+
+自己安装的软件在 /usr/local 目录下
+8080 Jenkins
+8001 Tomcat
+18888 java demo
+3306 mysql
+项目在 /tmp/project 下
+
+java_home 
+/usr/lib/jvm/jre-11-openjdk-11.0.3.7-0.el7_6.x86_64
+
+ echo $MAVEN_HOME
+ /usr/local/maven/apache-maven-3.6.1
+ 输出系统配置的变量
+
