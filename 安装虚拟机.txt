@@ -1,5 +1,5 @@
 安装虚拟机
-安装Centos 7.4
+安装Centos 7.5
 
 1.问题
 VM 12 注意一定要开启虚拟化技术
@@ -16,13 +16,6 @@ cxydy0816
 2.问题记录
 网络配置
 未安装软件
-
-general 481
-report 481 773
-
-773 837  717 
-customer_product 
-datavoc type
 
 配置IP地址，网关
 cd /etc/sysconfig/network-scripts/    //进入到network-scripts目录下  
@@ -43,6 +36,7 @@ GATEWAY=192.168.131.2   //设置网关 同NAT设置
 
 重启网络服务
 service network restart
+service nerwork restart
 
 设置DNS地址     
 vi /etc/resolv.conf    //编辑 resolv.conf文件
@@ -61,12 +55,14 @@ vi /etc/sysconfig/selinux       //编辑selinux文件
 SELINUX=disabled         //把文件中的SELINUX=enforcing 改成 SELINUX=disabled 即可
  
 sestatus    //查看SELinux状态
+sestatus
 
 权限
 chmod 777 
+chmod 777
 
 重启
-reboot 
+reboot reboot
 
 虚拟机网络配置
 https://blog.csdn.net/zkuncn/article/details/78452098
@@ -119,8 +115,6 @@ Pay
 研究
 
 yum install的时候提示：Loaded plugins: fastestmirror
-
-
 
 fastestmirror是yum的一个加速插件，这里是插件提示信息是插件不能用了。
 
