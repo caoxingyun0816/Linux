@@ -65,7 +65,7 @@ flush privileges 
 
 也可以 直接再添加新用户     
 
-CREATE USER ‘root‘@‘%‘ IDENTIFIED BY ‘您的密码‘;
+CREATE USER 'root'@'%' IDENTIFIED BY '您的密码';
 grant all on *.* to 'root001'@'%' identified by 'Root@@'  with grant option;
 
 增加root用户指定可以任意IP登录，如果想限制只能让指定IP登录请把%替换成IP地址
@@ -258,11 +258,13 @@ java项目用java -jar
 其它的一般有启动脚本
 
 自己安装的软件在 /usr/local 目录下
-8080 Jenkins
-8001 Tomcat
-18888 java demo
-3306 mysql
-项目在 /tmp/project 下
+8080 Jenkins  cd /usr/lib/jenkins java -jar jenkins.war
+8001 Tomcat  cd /usr/local/tomcat/apache-tomcat-8.5.42  cd bin sh start.sh
+18888 java demo  cd /tmp/java/cxy-demo java -jar demo.jar > log.out 2>&1 &
+maven /usr/local/maven/apache-maven-3.6.1
+3306 mysql server mysqld restart
+
+maven 测试项目在 /tmp/project 下
 
 java_home 
 /usr/lib/jvm/jre-11-openjdk-11.0.3.7-0.el7_6.x86_64

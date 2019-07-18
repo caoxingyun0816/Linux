@@ -1,0 +1,214 @@
+5.27
+https://github.com/vergnes/spring-social-weibo
+QQ登录
+
+5.29
+微信公众号
+查询触发
+
+springboot
+获取配置信息
+1@value
+2@Compent class @value
+
+a. Environment 读取
+所有的配置信息，都会加载到Environment实体中，因此我们可以通过这个对象来获取系统的配置，通过这种方式不仅可以获取.
+
+@RestController
+public class DemoController {
+    @Autowired
+    private Environment environment;
+
+    @GetMapping(path = "show")
+    public String show() {
+        Map<String, String> result = new HashMap<>(4);
+        result.put("env", environment.getProperty("server.port"));
+        return JSON.toJSONString(result);
+    }
+}
+
+b. @Value 注解方式
+@Value注解可以将配置信息注入到Bean的属性
+
+// 配置必须存在，且获取的是配置名为 app.demo.val 的配置信息
+    @Value("${app.demo.val}")
+    private String autoInject;
+
+
+c. 对象映射方式
+上面的两种方式对于某几个特别的配置来说，一个一个的写还好，
+
+@Data
+@Component
+@ConfigurationProperties(prefix = "app.proper")
+public class ProperBean {
+    private String key;
+    private Integer id;
+    private String value;
+}
+
+上面的写法，含义是将配置文件中配置 app.proper.key, app.proper.id, app.proper.value三个配置的值，赋值给上面的bean
+
+即通过注解ConfigurationProperties来制定配置的前缀
+通过Bean的属性名，补上前缀，来完整定位配置信息的Key，并获取Value赋值给这个Bean
+上面这个过程，配置的注入，从有限的经验来看，多半是反射来实现的，所以这个Bean属性的Getter/Setter方法得加一下，上面借助了Lombok来实现，标一个@Component表示这是个Bean，托付给Spring的ApplicationConttext来管理
+
+配置优先级问题
+如何读取其他配置文件如 xxx.properties 的配置信息
+
+
+问题
+1流程
+拦截器 --> 认证服务器 --> 返回信息 --> 封装认证信息、
+反射
+
+SpringSocail
+
+  Ctrl+o 便可快速得到父类中的所有方法
+  然后勾选继承
+
+ 思考，如果是你，你需要什么
+ 你会要什么功能
+
+
+考虑不完全
+    public boolean isAllFieldNull(Object o) {
+        Class cls = (Class) o.getClass();
+        Field[] fields = cls.getDeclaredFields();
+        boolean flag = true;
+        for (Field field : fields) {
+            field.setAccessible(true);
+            try {
+                Object val = field.get(o);
+                if (val != null) {
+                    if (field.getType() == String.class && "".equals(val.toString())) {
+                        flag = true;
+                    } else {
+                        flag = false;
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                throw new BusinessRunTimeException("获取属性值失败");
+            }
+        }
+        return flag;
+    }
+
+
+     String ids[] = {logisticsDetail.getLogisticsId()};
+            LogisticsVO logisticsVO = logisticsService.getLogistics(ids).getData().get(0);
+
+
+
+已读未读
+永远满足不了
+
+5.31
+or
+or
+or
+go home 
+or go home
+go home
+go home
+go home
+go home
+go home
+go home
+go home
+go home
+cxy
+go home
+
+
+
+6.3
+apiAdapter.setConnectionValues(getApi(), values)
+goooooooogle
+框架里的传参，基本都是放在构造函数中，直接在构造函数中初始化，调用处理方法。
+
+jsonfarmat
+时区
+
+6.4
+zuul请求超时
+
+已读未读
+每次点击时设置读取时间
+然后表中存入对应id，查询对应的更新时间
+、比较读取时间和更新时间
+如果读取时间大于更新时间 已读
+反之，未读
+
+只需两个接口
+1.点击查看时，设置每次的读取时间
+2.查看列表返回读取状态
+
+消息系统
+
+通过用户的注册或者绑定将用户id和第三方用户信息绑定起来。
+
+sz -y
+ sz：将选定的文件发送（send）到本地机器
+ rz：运行该命令会弹出一个文件选择窗口，从本地选择文件上传到服务器(receive)
+
+
+数据权限
+threadLocal 用户id没用清除
+导致权限混乱，
+和品牌有关系的数据也会丢失。
+所以要将threadlocal的数据清除掉。
+
+6.10
+apt install lrzsz
+
+linux 使用 rz 和 sz 命令
+编译安装
+root 账号登陆后，依次执行以下命令：
+tar zxvf lrzsz-0.12.20.tar.gz
+cd lrzsz-0.12.20
+./configure
+make
+make install
+上面安装过程默认把lsz和lrz安装到了/usr/local/bin/目录下，现在我们并不能直接使用，下面创建软链接，并命名为rz/sz：
+cd /usr/bin
+ln -s /usr/local/bin/lrz rz
+ln -s /usr/local/bin/lsz sz
+
+
+sz命令发送文件到本地：
+# sz filename
+rz命令本地上传文件到服务器：
+# rz
+执行该命令后，在弹出框中选择要上传的文件即可
+
+解绑工作
+17681136950
+支付宝
+QQ已换绑
+360
+京东
+网易云
+百度
+虎扑
+知乎
+银行卡
+招商 民生 工商 浦发
+抖音
+小米账号
+12306
+斗鱼
+虎牙
+
+微信 cxymiss256 注销中 不需要原手机的验证码
+头条 注销中
+微博 注销中 14天 6.13
+
+6.12
+数据库权限
+数据库备份
+幸运之家 兴趣培训软件
+
+6.13
+多交流

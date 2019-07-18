@@ -1,0 +1,19 @@
+Jenkins部署java服务
+自己安装的软件在 /usr/local 目录下
+8080 Jenkins  cd /usr/lib/jenkins java -jar jenkins.war
+8001 Tomcat  cd /usr/local/tomcat/apache-tomcat-8.5.42  cd bin sh start.sh
+18888 java demo  cd /tmp/java/cxy-demo java -jar demo.jar > log.out 2>&1 &
+maven /usr/local/maven/apache-maven-3.6.1
+3306 mysql server mysqld restart
+
+maven 测试项目在 /tmp/project 下
+
+java_home 
+/usr/lib/jvm/jre-11-openjdk-11.0.3.7-0.el7_6.x86_64
+
+ echo $MAVEN_HOME
+ /usr/local/maven/apache-maven-3.6.1
+ 输出系统配置的变量
+
+
+ 

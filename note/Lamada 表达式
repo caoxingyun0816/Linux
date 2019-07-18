@@ -1,0 +1,62 @@
+package com.ecmoho.service.product.service;
+
+import com.ecmoho.common.enmus.DelEnum;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+/***
+ * Created by Caoxingyun on 2019/01/29
+ */
+public class ListSortTest {
+    public static void main(String[] args) {
+        List<SortTest> sortTests = new ArrayList<>();
+        SortTest sortTest = new SortTest(new Date(), 2, 2.132);
+        SortTest sortTest1 = new SortTest(new Date(), 4, 1.0);
+        SortTest sortTest2 = new SortTest(new Date(), 3, 3.0);
+        SortTest sortTest3 = new SortTest(new Date(), 3, 3.0);
+        sortTests.add(sortTest);
+        sortTests.add(sortTest1);
+        sortTests.add(sortTest2);
+        sortTests.add(sortTest3);
+        // 按amount分组
+        Map<Integer,List<SortTest>> testList0 = sortTests.stream().collect(Collectors.groupingBy(t -> t.getAmount()));
+        //求和
+        Double sum = sortTests.stream().mapToDouble(t -> t.getPrice()).sum();
+        //平均组
+        Double average = sortTests.stream().mapToDouble(t -> t.getPrice()).average().getAsDouble();
+        sortTests.stream().sorted((a, b) -> (int) (a.getPrice() - b.getPrice())).collect(Collectors.toList());
+        System.out.println(sortTests.toString());
+        sortTests.sort(Comparator.comparing(SortTest::getPrice).reversed());
+        sortTests.sort(Comparator.comparing(SortTest::getAmount));
+        sortTests.sort(Comparator.comparing(SortTest::getTime));
+        List<SortTest> testList = sortTests.stream().sorted((a, b) -> (int) (a.getPrice() - b.getPrice())).collect(Collectors.toList());
+        System.out.println(testList.toString());
+    }
+}
+
+
+package com.ecmoho.service.product.service;
+
+import lombok.Data;
+
+import java.util.Date;
+
+/***
+ * Created by Caoxingyun on 2019/01/29
+ */
+@Data
+public class SortTest {
+
+    private Date time;
+
+    private Integer amount;
+
+    private Double price;
+
+    SortTest(Date time,Integer amount , Double price){
+        this.time = time;
+        this.amount = amount;
+        this.price = price;
+    }
+}

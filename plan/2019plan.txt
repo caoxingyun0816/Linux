@@ -1,0 +1,1522 @@
+2.12
+plan 
+控制自己，对的时间做对的事。
+身体 作息 锻炼 饮食 亲情 友情
+爱情 工作 性格 副业 练车 看书
+实践
+好学，不懂就问，不懂就学。
+
+
+work
+zuul 网关中配置服务注册中心路径
+
+当Eureka Client向Eureka Server发起注册请求的时候(根据defaultZone寻找Eureka Server列表)，如果有一次请求注册成功，那么后续就不会在向其他Eureka Server发起注册请求。以本文为例，注册中心有四个(8761、8762、8763、8764)。如果8761对应的Eureka Server服务的状态是UP，那么Eureka Client向该注册中心注册成功后，不会再向(8762、8763、8764)对应的Eureka Server发起注册请求(对应程序是在for循环中直接return respones)。
+
+2.13
+需求bug
+boot excel
+
+2.14
+需求bug
+总结系统
+技术难点
+
+2.15
+工作不听音乐了
+
+写项目
+系统基于当前主流J2EE多层架构，纯B/S模式，开发采用以安全和高性能所著称的JAVA语言，实现了动态的Web、Internet计算，跨平台运行，
+
+系统管理
+用户管理
+角色与权限管理
+菜单管理
+
+CRM管理
+客户信息
+商品管理
+供应商
+品牌
+银行账户
+
+
+采购管理
+采购单管理
+采购单申请
+采购预付款
+采购付款申请
+
+
+财务报表
+现金报表
+
+前后端分离
+
+前端vue.js
+后端
+springboot + springcloud 的微服务架构
+
+1.使用了spring eureka 注册发现服务
+	   spring config 管理配置文件
+	spring zuul 统一路由服务
+    springSecurity 权限权利
+
+2.使用Redis服务器保存token和session信息
+
+3.使用定时任务处理定时执行的业务，例如银行汇率拉去，月报余额同步
+
+4.各个业务模块分服务部署，不同服务模块表结构不能相互依赖，减少耦合，当性能出现瓶颈，可以分库分表
+
+5.使用sidecar 将其它服务注册到服务中心，直接用服务名调用其它语言api
+
+6.对于同步要求不高，大批量处理的业务，采用rabbitmq 消息队列来同步消息 ，减少系统压力。
+本系统中对于CRM管理中信息的增删改都需要同步到其它业务系统。
+
+7.使用jenkins一键部署项目，提高部署效率。
+
+8.项目集成swagger，注释接口API,方便前端查询接口
+
+9.使用easypoi处理Excel的导入导出。
+
+10.对于付款业务的金额操作，由于并发量大，为保证金额准确性，采用悲观锁和事务处理。
+
+
+用户登陆，会被AuthenticationProcessingFilter拦截，调用AuthenticationManager的实现，而且AuthenticationManager会调用ProviderManager来获取用户验证信息（不同的Provider调用的服务不同，因为这些信息可以是在数据库上，可以是在LDAP服务器上，可以是xml配置文件上等），如果验证通过后会将用户的权限信息封装一个User放到spring的全局缓存SecurityContextHolder中，以备后面访问资源时使用。 
+访问资源（即授权管理），访问url时，会通过AbstractSecurityInterceptor拦截器拦截，其中会调用FilterInvocationSecurityMetadataSource的方法来获取被拦截url所需的全部权限，在调用授权管理器AccessDecisionManager，这个授权管理器会通过spring的全局缓存SecurityContextHolder获取用户的权限信息，还会获取被拦截的url和被拦截url所需的全部权限，然后根据所配的策略（有：一票决定，一票否定，少数服从多数等），如果权限足够，则返回，权限不够则报错并调用权限不足页面。
+
+
+2.18
+单点登录
+ask
+movie
+plan
+
+
+脚本
+alter table purchase_detail drop repository;
+alter table purchase_detail modify column remark varchar(1000);
+
+1.
+查询发现，问题是出在强转上，只要改成：
+
+String zzid = map.get("ZZID").toString();
+
+就可以解决。因为BigDecimal不能强制转换成 String类型，要用toString()转换。
+
+2.
+MySQL5.0.3之前varchar(n)这里的n表示字节数
+MySQL5.0.3之后varchar(n)这里的n表示字符数，比如varchar（200），不管是英文还是中文都可以存放200个
+
+3
+ Date now = new Date();
+Calendar calendar = Calendar.getInstance();
+calendar.setTime(now);
+String first = DateUtils.date2String(calendar.getTime(),"yyyy-MM");
+calendar.add(calendar.MONTH, -1);
+String second = DateUtils.date2String(calendar.getTime(),"yyyy-MM");
+calendar.add(calendar.MONTH, -1);
+String third = DateUtils.date2String(calendar.getTime(),"yyyy-MM");
+calendar.add(calendar.MONTH, -1);
+String four = DateUtils.date2String(calendar.getTime(),"yyyy-MM");
+
+
+2.21
+exe 可执行文件
+编程语言基本都可以输出exe可执行文件
+对于java jar 导出exe文件，需要exe4j软件转换
+并且需要jre环境的支持。
+
+
+1.1 技能篇
+1.1.1 javase
+好像大家都叫这个名字 就是面试中高级java必定被问的问题 还有一些特殊的公司 比如如果面试支付宝是楼主做面试官的话 第一面我会面50%的java基础 50%的架构思路 所以这部分看面试官的风格 不一而足
+
+lz个人的话准备的技术栈可以完全按照thinking in java来准备
+分别是 java内存结构 gc基础 io基础 线程并发基础 容器基础 
+然后每个知识栈准备五个递进问题 作为面试的基础能力考察部分
+lz个人第一次面试只到第三个问题 由于这里不是技术篇 所以我这里不过多介绍基础内容 只抛出简单的介绍 具体的解答和分析会单独罗列
+
+技能篇-java内存结构
+1. 典型jvm的内存结构（以hotspot为例） 主要是堆 栈 方法区 介绍不同发内存的内存作用 声明一个对象的时候的内存使用
+2. 每个内存具体存的内容 最长问的是方法区 部分 包括常量池和class文件部分的价值和存储 static关键字的使用等等
+3. java版本信息 这里需要注意（我每次面试别人必定问）jdk1.8之后对于pemgen有优化 变成了metaspace 这个是可伸缩的变量区（之前是不可以伸缩的）需要重点了解变化地点
+4. did一次面试lz没有达到的 系统级别的内存概念和java内存交互 比如寄存器和内存指令的交互
+
+技能篇-并发
+1. 引子 引入线程并发感念 考察常见的并发场景的处理方法 比如lz遇到的共享map的并发处理 答使用collections 1.5之后可以（记不清了）使用concurrent hash map
+2. 具体并发控制的api的不同 主要是1.5之后新增了java.consurrent 包里面有新增的并发读写锁这个和synchronise不同
+3. 并发访问下的内存分配 我们知道线程是java概念 进程是系统概念 那么java在申请线程的时候是如何和系统交互的 比如volitae 关键字的作用和内存控制 如内存级别的内存和共享内存
+4. 内存指令的排序 如何保证对于共享内存处理的有序和线程内存如何刷新到共享内存
+
+技能篇-容器
+1. hashmap的原理 数据结构 hash的链表散列原理 equalse方法和hashcode方法在hashmap中的使用（先hashcode进行确定index来确定buget如果碰撞则比较equalse方法然后形成链表）
+
+2. hashmap的进阶原理 对于大小的控制 对于concurrentmodification ex的问题等等内容
+
+3. 不同jdk版本下的hashmap原理 主要还是jdk1.8下对于hashmap进行了优化然后jdk1.5下对于hashmap的并发进行了优化
+
+4. 对于hashmap在分布式业务下的应用 比如hash值的负载均衡 一致性hash等内容
+
+1.1.2 javaee部分
+javaee部分根据不同的面试企业可能考察的方面不一样 比如外包的公司可能重点考察javaee的框架serverlet和jsp 前端框架等内容 互联网公司可能重点考察常用框架如spring myvatis等内容 所以一定要做好规划啊
+
+javaee-spring
+spring这么说吧 现在不懂spring可以说不懂java了 现在spring可以说是一个一个完整的技术栈 lz面试的时候被问的是spring的设计思想和事务处理 所以这里说明这两点
+
+1. spring的设计思想 di和ioc解决的问题 为什么使用spring进行配置而不是直接new 这里我的理解是面向对象思想的解释和面向对象设计五大原则然后引入架构风格最后解释技术选项的思考
+
+我自己的回答 首先spring是一个轻量级的容器框架 基于工程模式封装了所有bean的构建方法生命周期
+这种方式比e**轻量级非常多 并且对于架构设计来说控制上下文和bean的构建方法是控制架构范围的一种方法 如面向对象原则里面的ocp和lsp都是说了内聚和面对抽象设计 这样必须对于抽象的实现提供框架级别的支持
+解释完上面之后再说 在做技术选型的时候需要考虑方方面面 对于spring这种容器及上下文的选择已经经过很多大型系统的验证 社区也非常丰富并且掌握的人足够多 所以是最合适的
+
+
+1.1.2 项目问题
+具体肯定会问项目里面的很多细节
+lz第一次面试的时候只有企业管理软件所以逗死三层架构部分 第二次面试是互联网公司 当时自己做了消息服务（消息队列） 统一session管理和sso 标准app的后台系统简单架构 这里分别说 注意这里的项目经验是lz自己的 所以每个人要对自己的项目足够了解
+
+项目-标准三层架构
+标准服务器三层架构的职责划分 每一层的技术选型 每一层的职责内容 每一层的设计规范 比如标准的web层使用springmvc框架 考虑的是外部交互封装的是视图（服务器的json）这些内容
+
+
+1. 自我介绍,重点介绍技术栈和项目经理
+2. 结合项目直接问soa服务化拆分的原则和拆分的设计.引导水平拆分和垂直拆分的一些思考.由于候选人说没有做垂直拆分就无法进行追问.
+3. 候选人提出自己写了一个分布式事务的sdk.所以针对分布式事务模型进行了提问,主要考察基于jta/xa两阶段模型上的设计和思考.没有发现对分布式事务模型进行过多了解和思考.后续追问如何实现一阶段/二阶段.但是候选人对于xa模型不太理解.后续提醒之后发现对于transactionManager还是有所设计.但是没有详细了解关于分布式事务一致性的保障问题.如事务恢复涉及.
+4. 提到弱一致性的读高并发.进而进行问如何解决高并发写的问题.候选人提出使用redis进行缓冲记录库存的方案.以及提出使用处理请求队列的方案.进而提问对于请求队列导致的时效性降低(异步化)如何解决.候选人没有理解
+5. javacore问题.多线程线程池参数问题,coresize,maxsize等参数是否了解,回答不完美.
+
+
+2.22
+使用Ribbon实现客户端负载均衡的消费者
+
+在应用主类中，通过@EnableDiscoveryClient注解来添加发现服务能力。创建RestTemplate实例，并通过@LoadBalanced注解开启均衡负载能力。
+
+创建ConsumerController来消费COMPUTE-SERVICE的add服务。通过直接RestTemplate来调用服务，计算10 + 20的值。
+@RestController
+public class ConsumerController {
+
+    @Autowired
+    RestTemplate restTemplate;
+
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String add() {
+        return restTemplate.getForEntity("http://COMPUTE-SERVICE/add?a=10&b=20", String.class).getBody();
+    }
+
+}
+
+我们可以看到在拦截器中注入了LoadBalancerClient的实现。当一个被@LoadBalanced注解修饰的RestTemplate对象向外发起HTTP请求时，会被LoadBalancerInterceptor类的intercept函数所拦截。由于我们在使用RestTemplate时候采用了服务名作为host，所以直接从HttpRequest的URI对象中通过getHost()就可以拿到服务名，然后调用execute函数去根据服务名来选择实例并发起实际的请求。
+
+
+Feign
+Feign是一个声明式的Web Service客户端，它使得编写Web Serivce客户端变得更加简单。我们只需要使用Feign来创建一个接口并用注解来配置它既可完成。它具备可插拔的注解支持，包括Feign注解和JAX-RS注解。Feign也支持可插拔的编码器和解码器。Spring Cloud为Feign增加了对Spring MVC注解的支持，还整合了Ribbon和Eureka来提供均衡负载的HTTP客户端实现。
+
+在应用主类中通过@EnableFeignClients注解开启Feign功能，具体如下：
+
+使用@FeignClient("compute-service")注解来绑定该接口对应compute-service服务
+通过Spring MVC的注解来配置compute-service服务下的具体实现。
+
+
+alter table supplier_currency add COLUMN receiving_side varchar(255);
+
+alter table supplier_currency add COLUMN swift_code varchar(255);
+
+
+2.25
+money money money
+怎么办？赶紧抉择。。。
+
+了解行情，总结
+
+123456789
+
+代练工作室
+
+http://www.tuiguangqudao.com/ 
+app 推广
+
+------------------------------
+1、让用户直接掏钱？难！！！
+
+用户通过自己掏腰包，付费下载想要的软件。如果你是IOS用户看到这个想法可能没有多大想法，因为App Store里面确实有付费软件；可是如果你是Android用户呢？哪款APP是我花钱下载的呀，哪怕是一般的手游也没说收费呀。一般的应用商店类似360手机助手、各大手机应用商店几乎都不提供付费软件，Android用户对付费软件并不买账。而在App Store里面是提供付费软件下载的分类，最新调整增加购物模块，进一步表现IOS 用户对于付费软件的需求较高。据外国媒体报道，最明显的原因是App Store里的付费应用几乎是Android Market付费应用的3倍。其次，Android Market的热门应用远远少于App Store。
+
+Android Market最成功应用Google Maps，其它应用与之差距很大，更别提国内应用了。
+
+Appstore里面前20名只有一个不是游戏软件，大约占到所有付费应用的80%。也就是说，要想获得用户的认可，几乎只有做游戏了，这或许是唯一的出路。
+
+2、简单粗暴：直接售卖广告位
+
+有人肯定想到，卖广告位应该是一个不错的选择。启动页、banner图，还有你根本无法想象到的边边角角都有可能成为APP的广告位，以微博举例：当你打开微博，一张覆盖全屏的启动页迎面而至；当你点开首页浏览，最上面的banner位可能是某个游戏在召唤你，甚至你看到的第一条、第二条等排名靠前的热门微博都是博主付费推广给你；而当你点开发现时，还有一张更大的banner图。
+
+广告的形式根据APP的不同而多样，不同形式的广告位置，APP开发者收取的价格不一样，据说微博的一条启动页是30W元/天，当然也有根据点击的量、安装量来决定费用。像今日头条、一点资讯这样的移动新闻客户端，他们的广告形式就更多了，一篇文章、一个推荐位、关键词推荐都可以是广告。加之从上线至今积累了庞大的用户数，并且拥有强大的后大数据分类，可以对人群进行细分，根据广告购买者的意愿对象进行投放。如果公司App产品线多而且用户量大时，企业会自己去操作广告平台，比如腾讯旗下的广点通、百度旗下的百度联盟、360奇胜效果联盟等。
+
+3、交易用户：换量赚差价
+
+所谓换量就是你中有我，我中有你，采取互推的方式进行，将用户利用率达到最高方式。比如你是一个做运动的APP，我是一个做音乐的APP。运动的人群中有听音乐的人，听音乐的人有爱运动的，这个时候就可以采取换量操作，在运动APP里内置音乐APP的链接，音乐APP内置运动APP的链接。往往这样的交换是不对等的，用户基数大的一方自然要像少的一方收取现金作为差价。
+
+比如美图秀秀最喜欢敢这样的事，还专门开发了个模块叫精品应用推荐，你冷不丁就会下载一个莫名其妙的软件。
+
+4、小商贩心态：导量变现
+
+我相信你肯定用过微信来打车，买电影票；又或者是从支付宝入口团购了一顿火锅，预定了一次周边游等等。你不是通过打车APP、电影票APP直接购买你需要的，你刚好在微商或者支付宝上看到了，并且如果购买的商品还便宜的话，你毫不犹豫的下手了。因为你的的购买行为，微信和支付宝成功的将你导向了打车软件、电影票APP等第三方软件，并成功变现。是不是感觉自己像一个货物，成为了别人赚钱的工具。
+
+导量的先决条件是你要拥有比其他平台更大的用户量，简单来说就是APP之王，你拥有用户量并且你可以操纵你的用户，国内BAT都在打造自己的超级APP。这不禁应了中国的一句话叫人多力量大，各家都在积累自己的群体。
+
+5、坐等吃肉：线下抢地盘
+
+近两年，随着o2o的势头影响，线下渠道市场受到了越来越多的APP开发者重视，这一点特别表现在以校园为市场的产品中，类似超级课程表这样的校园兼职类APP。他们在校园用户中打造自己的营销团队，这是我之前一篇文章中提到的粉丝营销的理念（参考http://zhuanlan.zhihu.com/tangdaoqi/20356515），当然打造大规模的校园团队是很好精力和成本的，这才显得拥有校园团队的优势之大，在这不铺开来说。对于学生来讲不仅可以得到实习锻炼的机会，还能够挣到外块，就像一个小社团。
+
+商家进入到校园的难点在哪里呢？中国的高校一般是禁止商业宣传性质活动的，最基本的一个活动场地可能都很难拿下来，所以一般商家进入到学校都是通过找第三方外包商来做，而这么做的成本是相当高的。这个时候在学校拥有校园团队的APP开发商就自然成了一个不错的选择。一方面是校园团队本身就是用户，上架可以直接影响他们，另一方面商家的产品结合APP开发商具有共同的推广需求，联合推广成本肯定比外包公司低。
+
+6、最好的出路：免费增值模式
+
+首先我们要搞清楚什么是免费增值，所谓的免费增值就是我先把产品给用户使用，当用户养成了一定的使用习惯，我们开始针对部分功能对用户进行收费。你可能了解“游戏试玩”“电影试看”等概念。但在APP的免费增值模式中，需要走的路很长，因为用户习惯需要经营。目前国内盛行的是会员制度，付费成为了会员之后用户可以比普通用户有更多功能。还有的软件是用户可以通过付费下载自己喜欢的素材，比如桌面、主题。
+
+商家选择在应用类收费最关键的一环是要研究用户习惯，要知道哪些用户会为什么功能付费，这需要强大的数据分析支撑。
+
+7、打造交易市场：虚拟货币盛行
+
+虚拟货币的概念其实并不新，你玩斗地主没豆子了，你还想玩，要再买；你下载百度文档，没币了，你也要买。在互联网时代，我们本身就身处一个虚拟的市场。用户愿意花钱参与到虚拟市场，我想无外乎两个因素，他要么真的使这款产品的脑残粉，要么他能从中获得利益。而后者似乎更有驱动性。玩过游戏的人都知道，买装备需要花钱，当我通过自己的努力让装备升级之后，同样可以卖钱。APP开发商要打造的就是这种平台，要增强用户的参与感，他花钱购买了虚拟货币，可以在市场内买到他喜欢的东西，而后他还能够进行加工，当他需要变现或者其他行为时，你还可以给他提供接口。除了游戏之外，这种模式还能够应用到音乐、阅读、图片等类型的APP中。
+
+8、精确定位：做行业产业链的入口
+
+相信很多APP都将自己定位于一个第三方平台，一方面拉内容来填充平台，一方面拉用户来分享内容，就像很多音乐播放器提供音乐内容给听众。这样的模式在未来的产业竞争中势必不具备优势。音乐领域，我们之前大多只关注到了分享，并没有关心创作。而像好唱，他们可以和线下KTV链接，用户可以将自己的歌分享到线上，通过大众的评判可以看出谁是未来之星。通过线上的积累再搭建线下的平台，将会把选秀节目和经济公司做完整的融合。
+
+就在几年前，你还在电视上看新闻，你看见了一个新闻事件要马上打电话给记者，让记者来报道。但是现在呢，你随时使用今日头条、一点资讯，传统的门户网站受到了很大的冲击，因为你不仅可以看，你还可以写，用户可以成为自媒体人。
+
+---------------------------------------------
+记者在某电商平台上，输入新浪微博的名称，系统优先给了大量帮助用户涨粉丝或是数据增量的业务选项。这些所谓的商家向记者推荐了不同需求的套餐，基本上是10块钱，就能买到400个粉丝，或可以转发指定微博100次。还可根据需求，实现粉丝活跃程度和地域真实性的专门订制。
+
+---------------------------------------------
+
+https://share.iclient.ifeng.com/shareNews?aid=ucms_7kWqss5QIUq&srctag=ent_weib
+
+允许BOM子件
+允许BOM母件
+允许生产订单
+
+套装的属性定义变更：
+是否PTO模型$bPTOModel = $jsonObject['bPTOModel']，选否；
+允许BOM子件$bBomSub = $jsonObject['bBomSub'];选是；
+允许BOM母件$bBomMain = $jsonObject['bBomMain'];选是。
+
+2.28
+泛型只在编译的时候生效
+运行不生效
+
+3.4
+获取配置文件标识
+String profileActive = System.getProperty("spring.profiles.active");
+
+学习spring scurety权限和单点登录
+
+3.5
+视频剪辑 视频制作 原创
+头条号
+头条收益 文章阅读1万次，粉丝100元,非粉丝3元;视频播放1万次 粉丝 几百,非粉丝3元
+领域 内容
+
+开始自己搭建项目
+记录搭建步骤，然后上传到网上
+
+技术停滞不前，需要自己学习
+
+完善登录：账号密码模式、短信验证码模式、社交账号模式均整合Spring security oAuth
+单点登录：基于Srping security oAuth 提供单点登录接口，方便其他系统对接
+用户管理：用户是系统操作者，该功能主要完成系统用户配置。
+机构管理：配置系统组织机构，树结构展现，可随意调整上下级。
+菜单管理：配置系统菜单，操作权限，按钮权限标识等。
+角色管理：角色菜单权限分配、设置角色按机构进行数据范围权限划分。
+动态路由：基于zuul实现动态路由，后端可配置化。
+灰度发布：自定义ribbon路由规则匹配多版本请求。
+终端管理：动态配置oauth终端，后端可配置化。
+字典管理：对系统中经常使用的一些较为固定的数据进行维护，如：是否等。
+操作日志：系统正常操作日志记录和查询；系统异常信息日志记录和查询。
+服务限流：多种维度的流量控制（服务、IP、用户等）
+消息总线：配置动态实时刷新
+分库分表：shardingdbc分库分表策略
+数据权限: 使用mybatis对原查询做增强，业务代码不用控制，即可实现。
+文件系统: 支持FastDFS、七牛云，扩展API几行代码实现上传下载
+消息中心：短信、邮件模板发送，几行代码实现发送
+聚合文档：基于zuul实现 swagger各个模块的实现
+代码生成：前后端代码的生成，支持Vue
+缓存管理：基于Cache Cloud 保证Redis 的高可用
+服务监控: Spring Boot Admin
+分布式任务调度： 基于elastic-job的分布式任务，zookeeper做调度中心
+zipkin链路追踪： 数据保存ELK，图形化展示
+pinpoint链路追踪： 数据保存hbase，图形化展示
+
+3.6
+what fuck
+
+q 如果全部转移金额为0怎么办？
+
+linux 压缩解压
+tar cvf a.tar a.txt b.txt 
+tar xvf a.tar
+
+ps
+kill -9 pid
+
+“持久化”意味着对象的“生存时间”并不取决于程序是否正在执行——它存在或“生存”于程序的每一次调用之间。通过序列化一个对象，将其写入磁盘，以后在程序再次调用时重新恢复那个对象，就能圆满实现一种“持久”效果。
+
+对象的序列化处理非常简单，只需对象实现了Serializable 接口即可（该接口仅是一个标记，没有方法）
+序列化的对象包括基本数据类型，所有集合类以及其他许多东西，还有Class 对象
+对象序列化不仅保存了对象的“全景图”，而且能追踪对象内包含的所有句柄并保存那些对象；接着又能对每个对象内包含的句柄进行追踪
+使用transient关键字修饰的的变量，在序列化对象的过程中，该属性不会被序列化。
+
+ 序列化的步骤：
+首先要创建某些OutputStream对象：OutputStream outputStream = new FileOutputStream("output.txt")
+将其封装到ObjectOutputStream对象内：ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+此后只需调用writeObject()即可完成对象的序列化，并将其发送给OutputStream：objectOutputStream.writeObject(Object);
+最后不要忘记关闭资源：objectOutputStream.close(), outputStream .close();
+ 
+反序列化的步骤：
+首先要创建某些OutputStream对象：InputStream inputStream= new FileInputStream("output.txt")
+将其封装到ObjectInputStream对象内：ObjectInputStream objectInputStream= new ObjectInputStream(inputStream);
+此后只需调用readObject()即可完成对象的反序列化：objectInputStream.readObject();
+最后不要忘记关闭资源：objectInputStream.close()，inputStream.close();
+
+
+
+3.7
+spring security
+spring oath
+spring social
+
+core中已经引入了
+为什么APP模块不能用？
+
+利用maven将项目打包
+然后将jar包上传到服务器
+用java命令启动jar，变成可执行的服务
+
+上线时
+关闭服务
+然后重新启动
+
+涉及Linux的命令操作 查询所用进程，关闭相关进程
+然后重启
+
+启动springboot项目
+#!/bin/sh
+jps | grep purchase-service
+while [ $? -eq 0 ]
+do
+ kill `jps | grep purchase-service | awk '{print $1}'`
+ sleep 2
+ jps | grep purchase-service
+done
+sleep 5
+ nohup java -Dspring.profiles.active=test -Dspring.profiles.url=http://192.168.1.132:1001 -DlogPath=/usr/project/ecmoho-purchase-service/log/ -DdefaultLevel=info -DlogstashUrl=udp:192.168.1.132  -jar /usr/project/ecmoho-purchase-service
+/target/ecmoho-purchase-service-1.0.0.jar > /usr/project/ecmoho-purchase-service/sysetm_log.log 2>&1 &
+echo "Finished"
+
+restful api 
+用URL表示资源，用http方法表示动作
+get 查 put修改 POST增 delete 删
+使用json交换数据
+
+
+swagger
+apiparam
+注解直接传参的controller
+
+3.11
+计划
+任务
+分布式缓存
+supplier currency
+
+3.12
+测试
+自定义注解
+
+3.13
+Story 501
+purchase
+本地V1.0.0已提交，注意不要提交到远程 
+本地 修改已同步到
+V1.0.1-RE501-20190220
+
+product
+本地V1.0.2已提交，注意不要提交到远程 
+本地 修改已同步到
+V1.0.1-RE501-20190220
+
+general
+本地V1.0.1已提交，注意不要提交到远程 
+本地 修改已同步到
+V1.0.1-RE501-20190220
+
+过滤器
+拦截器 拦截请求 权限等
+AOP 日志，记录等
+
+GET在浏览器回退时是无害的，而POST会再次提交请求
+get会将请求参数放在请求的url中，回退操作实际上浏览器会从之前的缓存中拿结果
+get请求会被浏览器缓存起来
+get请求不会改变结果
+post就不一定了
+所以回退就直接从缓存中取
+
+股票交易软件里后面一项"盈亏"，表示这只股票在当时处于“盈利”或“亏损”的状态，并不是真正的“盈利”或“亏损”，它会随着这只股票股价的涨跌而增大“盈利”或“亏损”。如果这时把股票卖出，就是真正的“盈利”或“亏损”了。
+股票的"盈亏"计算：卖出股票的成交额-卖出股票的交易费用-买入股票的成交额-买入股票交易的费用=股票交易的"盈亏"，得出的结果是“+”表示“盈利”，“-”表示“亏损”。
+
+总市值 + 总盈亏 + 可用 = 总资产
+
+当日参考盈亏为 当日的盈亏情况
+
+上交所编的指数名称一般前两个字是上证，代码000开头
+
+深交所编的指数名称一般前两个字是深证、国证，代码399开头
+
+中证指数公司的指数名称一般前两个字是中证，代码同时有000和399开头，比如最著名的中证500指数，399905和000905两个代码都是该指数。
+
+
+1、每个指数都是由固定的成分股组成的。
+
+2、成分股是由指数公司来挑的。
+
+3、流通市值大的成分股对指数影响更大。
+
+
+拦截器（Interceptor）和过滤器（Filter）的区别
+Spring的Interceptor(拦截器)与Servlet的Filter有相似之处，比如二者都是AOP编程思想的体现，都能实现权限检查、日志记录等。不同的是：
+
+Filter	Interceptor	Summary
+Filter 接口定义在 javax.servlet 包中	接口 HandlerInterceptor 定义在org.springframework.web.servlet 包中	 
+Filter 定义在 web.xml 中	 	 
+Filter在只在 Servlet 前后起作用。Filters 通常将 请求和响应（request/response） 当做黑盒子，Filter 通常不考虑servlet 的实现。	拦截器能够深入到方法前后、异常抛出前后等，因此拦截器的使用具有更大的弹性。允许用户介入（hook into）请求的生命周期，在请求过程中获取信息，Interceptor 通常和请求更加耦合。	在Spring构架的程序中，要优先使用拦截器。几乎所有 Filter 能够做的事情， interceptor 都能够轻松的实现
+Filter 是 Servlet 规范规定的。	而拦截器既可以用于Web程序，也可以用于Application、Swing程序中。	使用范围不同
+Filter 是在 Servlet 规范中定义的，是 Servlet 容器支持的。	而拦截器是在 Spring容器内的，是Spring框架支持的。	规范不同
+Filter 不能够使用 Spring 容器资源	拦截器是一个Spring的组件，归Spring管理，配置在Spring文件中，因此能使用Spring里的任何资源、对象，例如 Service对象、数据源、事务管理等，通过IoC注入到拦截器即可	Spring 中使用 interceptor 更容易
+Filter 是被 Server(like Tomcat) 调用	Interceptor 是被 Spring 调用	因此 Filter 总是优先于 Interceptor 执行
+
+
+拦截器（Interceptor）和过滤器（Filter）的执行顺序
+过滤前-拦截前-Action处理-拦截后-过滤后
+
+拦截器（Interceptor）使用
+interceptor 的执行顺序大致为：
+
+请求到达 DispatcherServlet
+DispatcherServlet 发送至 Interceptor ，执行 preHandle
+请求达到 Controller
+请求结束后，postHandle 执行
+Spring 中主要通过 HandlerInterceptor 接口来实现请求的拦截，实现 HandlerInterceptor 接口需要实现下面三个方法：
+
+preHandle() – 在handler执行之前，返回 boolean 值，true 表示继续执行，false 为停止执行并返回。
+postHandle() – 在handler执行之后, 可以在返回之前对返回的结果进行修改
+afterCompletion() – 在请求完全结束后调用，可以用来统计请求耗时等等
+
+
+Filter有如下几个用处。
+
+在HttpServletRequest到达Servlet之前，拦截客户的HttpServletRequest。
+根据需要检查HttpServletRequest，也可以修改HttpServletRequest头和数据。
+在HttpServletResponse到达客户端之前，拦截HttpServletResponse。
+根据需要检查HttpServletResponse，也可以修改HttpServletResponse头和数据。
+     Filter有如下几个种类。
+
+用户授权的Filter：Filter负责检查用户请求，根据请求过滤用户非法请求。
+日志Filter：详细记录某些特殊的用户请求。
+负责解码的Filter:包括对非标准编码的请求解码。
+能改变XML内容的XSLT Filter等。
+Filter可以负责拦截多个请求或响应；一个请求或响应也可以被多个Filter拦截。
+创建Filter必须实现javax.servlet.Filter接口，在该接口中定义了如下三个方法。
+
+void init(FilterConfig config):用于完成Filter的初始化。
+void destory():用于Filter销毁前，完成某些资源的回收。
+void doFilter(ServletRequest request,ServletResponse response,FilterChain chain):实现过滤功能，该方法就是对每个请求及响应增加的额外处理。该方法可以实现对用户请求进行预处理(ServletRequest request)，也可实现对服务器响应进行后处理(ServletResponse response)—它们的分界线为是否调用了chain.doFilter(),执行该方法之前，即对用户请求进行预处理；执行该方法之后，即对服务器响应进行后处理。
+
+过滤器拦截到响应url的请求后会先执行doFilter()方法中chain.doFilter()之前的代码，然后执行下一个过滤器或者servelt。紧接着执行chain.doFilter()之后的代码。
+
+3.15
+IFNULL(expr1,expr2)
+如果expr1不是NULL，IFNULL()返回expr1，否则它返回expr2。
+
+IF(expr1,expr2,expr3)，如果expr1的值为true，则返回expr2的值，如果expr1的值为false，
+则返回expr3的值。
+
+北蔡
+
+7号线
+高科西路
+杨高南路
+锦绣路
+
+6号线
+临斤新村
+
+
+11号线
+三林
+
+8号线
+凌兆新村
+
+3.19
+alter table imprest_detail drop purchase_id;
+
+alter table imprest_detail drop payment_detail_id;
+
+3.20
+自闭
+不满
+最近太安逸
+一切按计划行事
+计划我都有
+执行开始
+
+3.21
+alter table imprest_detail drop purchase_id;
+
+alter table imprest_detail drop payment_detail_id;
+
+所属类目data_voc 数据
+
+
+3.22
+甲醛检测治理
+家具厂
+装修
+
+当你想好一个回答的时候，你就需要换位思考:
+女生在看到你的“回复”会不会比较容易接?会不会很想接?
+
+主导话题会让女生产生两个感觉:
+
+①你提供了谈话价值(以前文章说过的那个公式:提供价值=产生感觉)
+
+②跟你聊天很轻松(人都喜欢轻松，因为根本不用自己思考)
+
+主导对话包括:
+①主动开启②切断③引导
+
+
+3.22
+增重计划
+原因→饮食计划→训练计划→休息恢复→心理
+
+原因
+遗传
+作息饮食不规律
+经常熬夜
+
+饮食计划
+三分练七分吃
+摄入的热量大于你代谢的热量时，你的体重就会增加
+少食多餐
+大负重的抗阻训练
+
+蛋白质、碳水化合物、脂肪和水
+
+蛋对于需要增重的人来说，更重要的是碳水化合物
+足够的碳水化合物才能给你提供足够的热量去增重
+
+哪些食物含有碳水化合物
+米饭、馒头等淀粉类主食，香蕉、土豆、番薯等蔬果，都含有大量碳水
+
+要尽量多吃饭
+蛋白质30~40%，碳水50~60%，脂肪10~20%，水多喝些，一天八杯。
+
+每天每kg体重需要摄入：1.8g蛋白质 和 6g碳水化合物，吃够了这个总量，配合训练，对增肌增重有比较好的效果。
+如果你60kg，你可能算出你每天需要108g蛋白质和360g碳水化合物
+
+在你目前三餐饮食的基础上，每顿多加一碗饭，一大块肉；然后在两餐之间安排加餐。平均每3小时进食一次，一天共吃6餐。
+
+一日三餐可以分为5~6餐：早餐、早午餐、午餐、下午餐、晚餐、宵夜。
+
+
+早点起床吃早餐
+一碗小米粥，三个肉包子，两个鸡蛋，一根香蕉，一把坚果，一碟其他水果。
+
+上午餐
+午饭前两三个小时吃比较适合，也就是9~10点的样子
+一根香蕉，一片面包，两个蛋清
+
+午饭
+在你现在的午餐基础上，多加半碗或一碗米饭。吃得下的话多加半块鸡排或一坨肉。
+
+下午餐
+同上午餐，大概下午3点左右吃，一根香蕉，一片面包，两个蛋清。
+
+晚餐
+同午餐，多加半碗或一碗米饭。吃得下的话多加半块鸡排或一坨肉。
+
+训练后
+喝一杯增肌粉，迅速补充蛋白质和碳水。
+
+宵夜
+宵夜不要太晚，睡前一小时吃。可以煮一小碗面，或几个水饺，或跟白天的加餐一样都可以。
+
+睡前
+牛奶
+
+8-10-12-3-6-9 
+
+循序渐进慢慢适应
+吃够但不吃撑
+每周尝试比上周多加一点
+让加餐成为一个习惯，才有增重的可能。
+
+
+
+训练计划
+健身界研究出分化训练这玩意，就是每次只集中精力训练1~2个部位，每次1~1.5小时，彻底练透这个部位，然后预留足够的休息时间，让这块肌肉修复长大。下个训练日继续练另外的部位。例如周一练胸，周二练背。
+
+周一：肩+小腿
+周三：背+肱二头肌
+周五：胸+肱三头肌
+周日：大腿+腹肌
+
+那70~80%的极限重量到底是多重？这里涉及一个新名词：Repetition Maximum，重复做的最大数值，我们一般简称为RM。例如：杠铃弯举，4组 x 12RM。
+
+12RM的意思就是，你选择了一个重量，这个重量恰好可以让你一口气举起12次就力竭了，不休息就再也举不起第13次，这个重量就是12RM。如果你还有力气举第13次，那这个重量就不是12RM，偏轻了，要加重才能达到12RM。1RM就是你只能举起一次的极限重量。
+
+70~80%极限重量这个范围，对应的是8~12RM的重量。这也就是大部分健身计划里，让你一组做12个、一组做8个的原因，这个负重范围最适合增肌。
+
+周一：肩、小腿
+-
+杠铃推举 4组，分别10、8、6、3RM（每组不断加重量的意思）
+阿诺德推举 4组，8RM
+直立划船 4组，10RM
+哑铃侧平举 3组，12RM 递减组（递减组：例如先用12磅哑铃做到力竭，马上换8磅的再做到力竭，然后5磅做到力竭。以上3次算一组，休息一分钟继续做下一组，共做3组）
+俯身哑铃侧平举 3组，12RM 递减组
+-
+站姿提踵 4组，12RM
+坐姿提踵 4组，12RM
+
+
+周三：背、肱二头肌、腰
+-
+宽握引体向上 分多组，一共做30个 （一个都做不起来就先用宽握高位下拉代替，4组，10RM）
+俯身划船 4组，10RM
+T杠划船 4组，10RM
+坐姿划船 4组，12RM
+-
+杠铃弯举 3组，12RM
+哑铃交替弯举 3组，12RM
+-
+硬拉 充分热身，3组，分别8、6、3RM （每组不断加重量的意思）
+罗马椅挺身 3组，12RM
+ 
+
+周五：胸、肱三头肌
+-
+杠铃卧推 4组，分别10、8、6、3RM （每组不断加重量的意思）
+上斜杠铃卧推 4组，10RM
+屈臂撑 4组，每组做至力竭
+仰卧飞鸟 4组，12RM
+-
+坐姿颈后哑铃臂屈伸 3组，10RM
+绳索下压 3组，10RM
+背后屈臂撑 3组，10RM
+ 
+
+周日：大腿、腹部
+-
+自由深蹲 6组，分别12、10、8、6、3、3RM （每组不断加重量的意思）
+腿举 6组，8RM
+箭步蹲 4组，10RM
+腿弯举 4组，10RM
+-
+卷腹 4组25次
+反向卷腹 4组25次
+
+
+lifesum
+
+《施瓦辛格健身全书》和《肌肉健美训练图解
+
+3.25
+这都三月底了
+如果不努力不计划
+今年又要白费了？
+
+3.26
+demand
+orderQuantity
+actualInStock
+invoiceQuantity
+
+
+OrderDetail
+UpdateInvoice
+采购需求量,下单量,实际入库量,发票量改为double类型
+
+alter table purchase_detail modify column demand decimal(18,2) comment '需求量';
+alter table purchase_detail modify column order_quantity decimal(18,2) comment '下单量';
+alter table purchase_detail modify column actual_in_stock decimal(18,2) comment '实际入库量';
+alter table purchase_detail modify column invoice_quantity decimal(18,2) comment '发票数量';
+
+517cc41b-98fe-4ba0-8358-9098fd14e8f7
+
+Brand brand = getBrandById(purchaseVO.getPurchaseDetails().get(0).getBrandId());
+        //合作单位归属
+        purchaseOaVO.setCompanyName(brand.getCompanyName());
+        //国内国外属性
+        purchaseOaVO.setLocal(brand.getBusAttribute().equals(BrandAttributeEnum.CHINESE.getType()) ? "国内" : "国外");
+
+4.2
+需求
+采购501、509.添加附件 在采购501版本上 
+purchase
+V1.0.1-RE501-20190220
+product
+V1.0.1-RE501-20190220
+general
+V1.0.1-RE501-20190220
+
+采购
+payment  OA流程添加合作单位 日常bug 下单量改为double 采购详情数据修改，U8接口修改
+
+脚本
+datavoc  所属类目
+-- 需求509 采购申请单：增加所属类目选项和上传附件功能
+INSERT INTO `data_voc`(`id`, `name`, `type`, `create_time`, `update_time`, `del`) VALUES ('42bafc75470311e9bf84005056bc3068', '国内采购', 'PURCHASE_ITEM', '2019-03-15 17:15:27.000', '2019-03-15 17:15:29.000', 0);
+INSERT INTO `data_voc`(`id`, `name`, `type`, `create_time`, `update_time`, `del`) VALUES ('4c75c07f470311e9bf84005056bc3068', '恒寿堂', 'PURCHASE_ITEM', '2019-03-15 17:18:42.938', '2019-03-15 17:18:45.371', 0);
+INSERT INTO `data_voc`(`id`, `name`, `type`, `create_time`, `update_time`, `del`) VALUES ('705c1ed0470311e9bf84005056bc3068', 'KGC', 'PURCHASE_ITEM', '2019-03-15 17:19:43.182', '2019-03-15 17:19:45.718', 0);
+INSERT INTO `data_voc`(`id`, `name`, `type`, `create_time`, `update_time`, `del`) VALUES ('7caa4124470311e9bf84005056bc3068', '养无限', 'PURCHASE_ITEM', '2019-03-15 17:20:05.998', '2019-03-15 17:20:08.662', 0);
+
+
+-- 采购需求变更预付款显示采购单号
+alter table imprest change column purchase_oa_id purchase_unique_code VARCHAR(32)
+alter table imprest_detail drop purchase_id;
+alter table imprest_detail drop payment_detail_id;
+
+double
+alter table purchase_detail modify column demand decimal(18,2) comment '需求量';
+alter table purchase_detail modify column order_quantity decimal(18,2) comment '下单量';
+alter table purchase_detail modify column actual_in_stock decimal(18,2) comment '实际入库量';
+alter table purchase_detail modify column invoice_quantity decimal(18,2) comment '发票数量';
+
+总结
+看完视频
+看 写 总结
+找房
+防止入坑
+多吃，多动
+挣钱
+
+
+4.3
+吃吃吃
+Double sum = subList.stream().mapToDouble(t -> t.getDemand()).sum();
+List<T> ts = (List<T>) JSONArray.parseArray(jsonString, clazz);
+
+4.8
+过去的就让它过去吧
+
+DateUtils.date2String(new Date(),"yyyy-MM-dd")
+
+统计月份
+select b.日期,isnull(a.金额,0) as 金额
+from
+(
+select convert(varchar(7),dateadd(month,number,'2014-05-01'),120)  as 日期
+from
+    master..spt_values 
+where 
+    datediff(month,dateadd(month,number,'2018-04'), '2019-05')>=0
+    and number>=0 
+    and type='p') b
+left join a on a.日期=b.日期
+
+代码耦合性很高
+
+
+4.11
+easy poi keyindex 表示主键，有值会导入，没值不导入
+根据现象，猜逻辑
+追踪源码，断点调试
+查找原因，给出解决办法
+
+采购优化common 'V1.0.6-RE501'
+report 565
+purchase 549
+
+4.15
+plan
+learn
+
+附件上传
+学习security
+锻炼一小时
+学习一小时
+效率
+蛙泳
+
+<iframe frameborder="0" allowfullscreen="" src="https://www.zhihu.com/video/1092038913581039616?autoplay=false&amp;useMSE="></iframe>
+
+
+4.16
+Mysql会对查询结果中的每行都加排他锁，当没有其他线程对查询结果集中的任何一行使用排他锁时，可以成功申请排他锁，否则会被阻塞。
+行级锁都是基于索引的，如果一条SQL语句用不到索引是不会使用行级锁的，会使用表级锁。行级锁的缺点是：由于需要请求大量的锁资源，所以速度慢，内存消耗大。
+
+死锁
+概念：
+死锁是指两个或两个以上的进程在执行过程中,因争夺资源而造成的一种互相等待的现象,若无外力作用,它们都将无法推进下去.此时称系统处于死锁状态或系统产生了死锁,这些永远在互相等的进程称为死锁进程.
+
+产生条件：
+互斥条件：指进程对所分配到的资源进行排它性使用，即在一段时间内某资源只由一个进程占用。如果此时还有其它进程请求资源，则请求者只能等待，直至占有资源的进程用毕释放
+请求和保持条件：指进程已经保持至少一个资源，但又提出了新的资源请求，而该资源已被其它进程占有，此时请求进程阻塞，但又对自己已获得的其它资源保持不放
+不剥夺条件：指进程已获得的资源，在未使用完之前，不能被剥夺，只能在使用完时由自己释放
+环路等待条件：指在发生死锁时，必然存在一个进程——资源的环形链，即进程集合{P0，P1，P2，···，Pn}中的P0正在等待一个P1占用的资源；P1正在等待P2占用的资源，……，Pn正在等待已被P0占用的资源
+
+遇到死锁可以执行如下的查询语句观察等待的事务：
+-- 查看当前的事务
+select * from information_schema.innodb_trx;
+-- 查看当前锁定的事务
+select * from information_schema.innodb_locks;
+-- 查看当前等锁的事务
+select * from information_schema.innodb_lock_waits;
+
+
+共享锁：对某一资源加共享锁，自身可以读该资源，其他人也可以读该资源（也可以再继续加共享锁，即 共享锁可多个共存），但无法修改。
+排他锁：对某一资源加排他锁，自身可以进行增删改查，其他人无法进行任何操作。
+
+
+数据库的增删改操作默认都会加排他锁，而查询不会加任何锁。
+而数据库规定同一资源上不能同时共存共享锁和排他锁。
+
+T1:select * from table lock in share mode（假设查询会花很长时间，下面的例子也都这么假设）
+
+T2:update table set column1='hello'
+
+
+过程：
+
+T1运行（并加共享锁)
+
+T2运行
+
+If T1还没执行完
+
+T2等......
+
+else 锁被释放
+
+T2执行
+
+end if
+
+ 
+
+T2 之所以要等，是因为 T2 在执行 update 前，试图对 table 表加一个排他锁，而数据库规定同一资源上不能同时共存共享锁和排他锁。所以 T2 必须等 T1 执行完，释放了共享锁，才能加上排他锁，然后才能开始执行 update 语句。
+
+例2：-------------------------------------------------------------------------------------------------------------------------------------
+
+T1:select * from table lock in share mode
+
+T2:select * from table lock in share mode
+
+ 
+
+这里T2不用等待T1执行完，而是可以马上执行。
+
+ 
+
+分析：
+
+T1运行，则 table 被加锁，比如叫lockA，T2运行，再对 table 加一个共享锁，比如叫lockB，两个锁是可以同时存在于同一资源上的（比如同一个表上）。这被称为共享锁与共享锁兼容。这意味着共享锁不阻止其它人同时读资源，但阻止其它人修改资源。
+
+
+
+4.17
+1.明细的金额多次转换后，精度会缺失的。 允许
+2.取u8汇率 
+3.对账单 对应出库单
+4.金额可以为负,加减号处理？正负判断 可以为负，直接保存金额
+
+4.18
+计划
+专注力急剧下降
+
+4.19
+i/o输入输出流
+https://blog.csdn.net/hguisu/article/details/7418161
+在读入或写出时，对数据进行缓存，以减少I/O的次数：BufferedReader、BufferedWriter、BufferedInputStream、BufferedOutputStream
+
+二、按数据来源（去向）分类： 
+1、File（文件）： FileInputStream, FileOutputStream, FileReader, FileWriter 
+2、byte[]：ByteArrayInputStream, ByteArrayOutputStream 
+3、Char[]: CharArrayReader, CharArrayWriter 
+4、String: StringBufferInputStream, StringReader, StringWriter 
+5、网络数据流：InputStream, OutputStream, Reader, Writer 
+
+InputStream是输入字节数据用的类，所以InputStream类提供了3种重载的read方法.Inputstream类中的常用方法： 
+　　（1） public abstract int read( )：读取一个byte的数据，返回值是高位补0的int类型值。若返回值=-1说明没有读取到任何字节读取工作结束。
+　　（2） public int read(byte b[ ])：读取b.length个字节的数据放到b数组中。返回值是读取的字节数。该方法实际上是调用下一个方法实现的 
+　　（3） public int read(byte b[ ], int off, int len)：从输入流中最多读取len个字节的数据，存放到偏移量为off的b数组中。 
+　　（4） public int available( )：返回输入流中可以读取的字节数。注意：若输入阻塞，当前线程将被挂起，如果InputStream对象调用这个方法的话，它只会返回0，这个方法必须由继承InputStream类的子类对象调用才有用， 
+　　（5） public long skip(long n)：忽略输入流中的n个字节，返回值是实际忽略的字节数, 跳过一些字节来读取 
+　　（6） public int close( ) ：我们在使用完后，必须对我们打开的流进行关闭. 
+
+OutputStream提供了3个write方法来做数据的输出，这个是和InputStream是相对应的。 
+　　1. public void write(byte b[ ])：将参数b中的字节写到输出流。 
+　　2. public void write(byte b[ ], int off, int len) ：将参数b的从偏移量off开始的len个字节写到输出流。 
+　　3. public abstract void write(int b) ：先将int转换为byte类型，把低字节写入到输出流中。 
+　　4. public void flush( ) : 将数据缓冲区中数据全部输出，并清空缓冲区。 
+　　5. public void close( ) : 关闭输出流并释放与流相关的系统资源。 
+
+
+4.22
+再来一遍
+ http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class).formLogin()
+
+ 4.23
+mybatis choose 
+ <choose>
+		    <when test="……">
+		    	……
+		    </when>
+		    <otherwise>
+		    	……
+		    </otherwise>
+	    </choose>
+
+遍历所有属性
+
+//判断该对象是否: 返回ture表示所有属性为null  返回false表示不是所有属性都是null
+    public static boolean isAllFieldNull(Object obj) throws Exception{
+        Class stuCla = (Class) obj.getClass();// 得到类对象
+        Field[] fs = stuCla.getDeclaredFields();//得到属性集合
+        boolean flag = true;
+        for (Field f : fs) {//遍历属性
+            f.setAccessible(true); // 设置属性是可以访问的(私有的也可以)
+            Object val = f.get(obj);// 得到此属性的值
+            if(val!=null) {//只要有1个属性不为空,那么就不是所有的属性值都为空
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
+
+
+4.23晚
+   report 573 应收预算 
+   product bug3089 修改合作单位没生效
+   product bug 0423 OA申请添加合作单位
+   上线report 海关报表 
+
+
+4.24
+ 未上线
+ report 573 应收预算
+ product bug 0423 OA申请添加合作单位
+
+ req 613
+ product 
+ purchase
+ scheduel
+
+
+
+ 4.777
+ 6.719
+
+ 4.25
+ 带着方案问问题
+
+ 
+4.28
+不要自信，先测试再开始
+feign 调用失败
+404 一定是路径错误
+
+4.29
+撩
+需求，先思考，再动手
+learn
+
+
+
+UPDATE product a
+INNER JOIN (
+	select c.*,d.currency from (select b.group_id,b.product_id from product a left join  product_group b  on a.id = b.group_id and b.del = 0 where a.type = 'GROUP' and a.currency is null group by a.id order by b.create_time) c left join product d on c.product_id = d.id 
+) b
+SET a.currency = b.currency
+WHERE
+	 a.id = b.group_id;
+
+
+UPDATE product a
+INNER JOIN (
+SELECT
+	a.group_id,
+	sum(ROUND(a.amount * (IF( b.currency = d.currency, b.price, (b.price * h.rate / c.rate))),4)) AS groupPrice 
+FROM
+	product_group a
+	LEFT JOIN (
+SELECT
+	id,
+	price,
+	currency,
+CASE
+	WHEN currency = 'CNY' THEN
+	'人民币' 
+	WHEN currency = 'USD' THEN
+	'美元' 
+	WHEN currency = 'AUD' THEN
+	'澳元' 
+	WHEN currency = 'JPY' THEN
+	'日元' 
+	WHEN currency = 'KRW' THEN
+	'韩币' 
+	WHEN currency = 'EUR' THEN
+	'欧元' 
+	WHEN currency = 'GBP' THEN
+	'英镑' 
+	WHEN currency = 'NZD' THEN
+	'新西兰元' 
+	WHEN currency = 'HKD' THEN
+	'港币' 
+	END AS cncurrency 
+FROM
+	product 
+	) b ON a.product_id = b.id
+	LEFT JOIN bank_rate h ON h.NAME = b.cncurrency 
+	AND date_format( h.create_time, '%Y-%m-%d' ) = '2019-05-06'
+	LEFT JOIN (
+SELECT
+	id,
+	type,
+CASE
+	WHEN currency = 'CNY' THEN
+	'人民币' 
+	WHEN currency = 'USD' THEN
+	'美元' 
+	WHEN currency = 'AUD' THEN
+	'澳元' 
+	WHEN currency = 'JPY' THEN
+	'日元' 
+	WHEN currency = 'KRW' THEN
+	'韩币' 
+	WHEN currency = 'EUR' THEN
+	'欧元' 
+	WHEN currency = 'GBP' THEN
+	'英镑' 
+	WHEN currency = 'NZD' THEN
+	'新西兰元' 
+	WHEN currency = 'HKD' THEN
+	'港币' 
+	END AS cn,
+	currency 
+FROM
+	product 
+	) d ON a.group_id = d.id 
+	AND d.type = 'GROUP'
+	LEFT JOIN bank_rate c ON d.cn = c.NAME 
+	AND date_format( c.create_time, '%Y-%m-%d' ) = '2019-05-06' 
+WHERE
+	a.del = 0 
+GROUP BY
+	a.group_id
+) b
+SET a.price = b.groupPrice
+WHERE
+	 a.id = b.group_id;
+
+
+5.8
+
+   report 573 应收预算  UAT
+
+   product 677 purchase 677 
+   scheduler 677
+
+   613
+
+   OA套装币种添加
+   商品币种修改
+   定时同步
+   test 未上UAT
+
+   product 693
+   套装添加母件关系 test
+
+
+按照实际内存 分批拉取一定的数据
+
+
+5.9
+    @NotBlank(message = "计费方式不能为空!")
+    @ApiModelProperty(value = "计费方式")
+    private String chargeMode;
+
+    @NotBlank(message = "费用规格类型不能为空!")
+    @ApiModelProperty(value = "费用规格类型")
+    private String specificationType;
+
+    @NotBlank(message = "费用计算方法不能为空!")
+    @ApiModelProperty(value = "费用计算方法")
+    private String chargeWay;
+
+
+    {"logisticsStage":"FINISH_DISTRIBUTION","chargeMode":"ON_REPOSITORY","specificationType":"ON_WEIGHT","chargeWay":"SUPERPOSITION_CHARGE","dispatchRepository":"上
+
+
+
+        @Select("SELECT * FROM `fee_scale_model` where json_extract(attribute,'$.logisticsStage')  = 'FINISH_DISTRIBUTION' and json_extract(attribute,'$.chargeMode')  = 'ON_REPOSITORY' + " +
+            "and json_extract(attribute,'$.specificationType')  = 'ON_WEIGHT' and json_extract(attribute,'$.chargeWay')  = 'SUPERPOSITION_CHARGE' );
+
+
+       SELECT * FROM table 
+  WHERE json_cloumn_name -> '$[*].height' > 7
+
+
+  5.10
+  比较不同
+  大胆想象
+  自己写的方法
+  和包中的方法
+
+  比较自己和包的不同，找到为题所在。
+
+
+
+5.13
+req 693 test 未上线
+对于前端的样式，我们只提供数据，具体展示前端自己定义
+应为后端接口是通用的。前端展示对于web端或移动端都不尽相同。
+
+qiang yuanli ne 
+I need to work hard
+
+do i dont know
+
+5.14
+work
+learn
+love 
+car
+part-time job
+plan
+
+应变能力差
+思维定式了
+
+费用计算
+
+预计和实收
+
+链接：https://pan.baidu.com/s/1pi5HweWqWT_aMDLvA2kDaQ 
+提取码：p7wk 
+复制这段内容后打开百度网盘手机App，操作更方便哦
+
+
+5.16
+
+{
+  "boxAmount": 10,
+  "destinationRepository": "上海仓",
+  "dispatchRepository": "上海仓",
+  "feeScaleModelName": "仓库理货",
+  "logisticsId": "a69946e476e111e995120862664c73a4",
+  "pieceAmount": 10,
+  "volume": 10
+}
+
+其它物流阶段 单排发货 数据的取值
+
+
+在Terminal 或者git控制条 执行 回退到某个版本命令
+git reset --hard 139dcfaa558e3276b30b6b2e5cbbb9c00bbdca96 
+
+5.17
+mybatis 
+注解动态SQL
+普通SQL不需要script标签
+只有在动态SQL中时需要script标签。保证程序识别特殊字段。
+
+mybatis 动态SQL，一些字符必须转义，不然不能识别。
+ 没有以正确的语法结尾
+mybatis的转义字符：
+
+&lt;<  小于号；
+ 
+&gt;> 大于号； 
+ 
+&amp; & 和 ；
+ 
+&apos;  ‘’单引号； 
+ 
+&quot; “”  双引号； 
+
+部分报价
+校验
+
+520
+money
+也就是说,最后只剩17元
+若，则317
+
+new method
+
+5.21
+all 481
+
+Map dynamicAttribute = GBeanUtils.objectToMap(giveOrder);
+
+{"chargeMode":"FLAT_FEE","specificationType":"ON_WEIGHT","logisticsStage":"OUT_WAREHOUSE","chargeWay":"SUPERPOSITION_CHARGE"}
+
+5.22
+learn
+json_value
+
+{"volume": 50.0, "packingOrderVOS": [{"palletCode": "2", "actualAmount": 90.0, "specification": "180片/瓶", "weight": 0.402, "inches": 20.0, "grossWeight": 90.72, "unit": "G", "uniqueCode": "017896", "price": 4.93, "actualBoxAmount": 9.0, "totalWeight": 36.18, "currency": "美元", "effectiveDate": 1606752000000, "upcCode": "025077178964"}, {"palletCode": "2", "actualAmount": 190.0, "specification": "180片/瓶", "weight": 0.402, "inches": 20.0, "grossWeight": 910.72, "unit": "G", "uniqueCode": "117896", "price": 4.93, "actualBoxAmount": 19.0, "totalWeight": 36.18, "currency": "美元", "effectiveDate": 1606752000000, "upcCode": "025077178964"}], "remark": "修改出仓", "storage": "037", "storeDate": 1558368000000}
+
+5.23
+手动配置数据源
+要手动配置typehandler的路径，不然扫描不到不生效
+bean.setTypeHandlersPackage("com.*.*.*.handlers");
+
+        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+        bean.setDataSource(dataSource);
+        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
+        configuration.setMapUnderscoreToCamelCase(true);
+        bean.setConfiguration(configuration);
+        bean.setTypeHandlersPackage("com.*.*.*.handlers");
+        bean.setVfs(SpringBootVFS.class);
+        return bean.getObject();
+
+
+
+动态属性 不同节点不同对象
+固定属性 直接使用对象
+
+研究一下子
+
+map 泛型 set值转换
+、
+
+d632713fb0ed4e6b906741e032c7bab1
+
+8005
+
+
+5.24
+sidecar
+
+
+-Dspring.profiles.active=development
+-Dspring.profiles.url=http://192.168.3.12:1001
+-DlogPath=D:/logs/sidecar
+-DdefaultLevel=debug
+-DlogstashUrl=udp:localhost
+
+overwork
+get money
+
+实发件数
+actualAmount
+
+实发毛重
+grossWeight
+
+
+
+    @ApiModelProperty(value = "实发件数")
+    private Double actSendAmount;
+
+    @ApiModelProperty(value = "实发毛重")
+    private Double actSendWeight;
+
+    @ApiModelProperty(value = "实收件数")
+    private Double actualReceiveAmount;
+
+
+ 第一，你知不知道你们系统里为什么要用消息队列这个东西？
+不少候选人，说自己项目里用了 Redis、MQ，但是其实他并不知道自己为什么要用这个东西。其实说白了，就是为了用而用，或者是别人设计的架构，他从头到尾都没思考过。
+没有对自己的架构问过为什么的人，一定是平时没有思考的人，面试官对这类候选人印象通常很不好。因为面试官担心你进了团队之后只会木头木脑的干呆活儿，不会自己思考。
+
+第二，你既然用了消息队列这个东西，你知不知道用了有什么好处&坏处？
+你要是没考虑过这个，那你盲目弄个 MQ 进系统里，后面出了问题你是不是就自己溜了给公司留坑？你要是没考虑过引入一个技术可能存在的弊端和风险，面试官把这类候选人招进来了，基本可能就是挖坑型选手。就怕你干 1 年挖一堆坑，自己跳槽了，给公司留下无穷后患。
+
+第三，既然你用了 MQ，可能是某一种 MQ，那么你当时做没做过调研？
+你别傻乎乎的自己拍脑袋看个人喜好就瞎用了一个 MQ，比如 Kafka，甚至都从没调研过业界流行的 MQ 到底有哪几种。每一个 MQ 的优点和缺点是什么。每一个 MQ 没有绝对的好坏，但是就是看用在哪个场景可以扬长避短，利用其优势，规避其劣势。
+如果是一个不考虑技术选型的候选人招进了团队，leader 交给他一个任务，去设计个什么系统，他在里面用一些技术，可能都没考虑过选型，最后选的技术可能并不一定合适，一样是留坑。
+
+
+一
+不思考
+
+二
+不研究，挖坑
+
+三
+技术选型，切合实际
+
+MQ 优点
+解耦
+a 生产一条消息 需要发送给bcd
+如果需要发送的系统改了，则需要修改代码，系统代码严重耦合
+
+使用消息队列
+a生产了消息，谁需要使用就去消费即可。a不需要考虑发送给谁，调用成功或失败。
+
+例如中台系统新增或修改了商品，需要将商品信息发送到U8,易恒云
+代码编写会耦合
+使用消息队列，将消息发送到队列中，谁需要谁订阅即可。
+
+异步
+时间问题
+用户请求本系统操作5ms,调用bcd系统1s，用户体验极差
+用mq,将后续调用其它系统的事情用异步处理，用户体验上更快。
+
+削峰
+每天 0:00 到 12:00，A 系统风平浪静，每秒并发请求数量就 50 个。结果每次一到 12:00 ~ 13:00 ，每秒并发请求数量突然会暴增到 5k+ 条。但是系统是直接基于 MySQL 的，大量的请求涌入 MySQL，每秒钟对 MySQL 执行约 5k 条 SQL。
+
+一般的 MySQL，扛到每秒 2k 个请求就差不多了，如果每秒请求到 5k 的话，可能就直接把 MySQL 给打死了，导致系统崩溃，用户也就没法再使用系统了。
+
+但是高峰期一过，到了下午的时候，就成了低峰期，可能也就 1w 的用户同时在网站上操作，每秒中的请求数量可能也就 50 个请求，对整个系统几乎没有任何的压力。
+
+如果使用 MQ，每秒 5k 个请求写入 MQ，A 系统每秒钟最多处理 2k 个请求，因为 MySQL 每秒钟最多处理 2k 个。A 系统从 MQ 中慢慢拉取请求，每秒钟就拉取 2k 个请求，不要超过自己每秒能处理的最大请求数量就 ok，这样下来，哪怕是高峰期的时候，A 系统也绝对不会挂掉。而 MQ 每秒钟 5k 个请求进来，就 2k 个请求出去，结果就导致在中午高峰期（1 个小时），可能有几十万甚至几百万的请求积压在 MQ 中。
+
+
+这个短暂的高峰期积压是 ok 的，因为高峰期过了之后，每秒钟就 50 个请求进 MQ，但是 A 系统依然会按照每秒 2k 个请求的速度在处理。所以说，只要高峰期一过，A 系统就会快速将积压的消息给解决掉。
+
+缺点
+
+系统可用性降低
+系统引入的外部依赖越多，越容易挂掉。本来你就是 A 系统调用 BCD 三个系统的接口就好了，人 ABCD 四个系统好好的，没啥问题，你偏加个 MQ 进来，万一 MQ 挂了咋整，MQ 一挂，整套系统崩溃的，你不就完了？如何保证消息队列的高可用，可以点击这里查看。
+
+系统复杂度提高
+硬生生加个 MQ 进来，你怎么保证消息没有重复消费？怎么处理消息丢失的情况？怎么保证消息传递的顺序性？头大头大，问题一大堆，痛苦不已。
+
+一致性问题
+A 系统处理完了直接返回成功了，人都以为你这个请求就成功了；但是问题是，要是 BCD 三个系统那里，BD 两个系统写库成功了，结果 C 系统写库失败了，咋整？你这数据就不一致了。
+
+
+rabbitmq 优势 延迟最低
+
+rocketmq 优势，可以支持大量topic，且吞吐量小符下降
+
+一般的业务系统要引入 MQ，最早大家都用 ActiveMQ，但是现在确实大家用的不多了，没经过大规模吞吐量场景的验证，社区也不是很活跃，所以大家还是算了吧，我个人不推荐用这个了；
+
+后来大家开始用 RabbitMQ，但是确实 erlang 语言阻止了大量的 Java 工程师去深入研究和掌控它，对公司而言，几乎处于不可控的状态，但是确实人家是开源的，比较稳定的支持，活跃度也高；
+
+不过现在确实越来越多的公司会去用 RocketMQ，确实很不错，毕竟是阿里出品，但社区可能有突然黄掉的风险（目前 RocketMQ 已捐给 Apache，但 GitHub 上的活跃度其实不算高）对自己公司技术实力有绝对自信的，推荐用 RocketMQ，否则回去老老实实用 RabbitMQ 吧，人家有活跃的开源社区，绝对不会黄。
+
+所以中小型公司，技术实力较为一般，技术挑战不是特别高，用 RabbitMQ 是不错的选择；大型公司，基础架构研发实力较强，用 RocketMQ 是很好的选择。
+
+如果是大数据领域的实时计算、日志采集等场景，用 Kafka 是业内标准的，绝对没问题，社区活跃度很高，绝对不会黄，何况几乎是全世界这个领域的事实性规范。
+
+如何保证消息队列的高可用？
+
+rabbitmq 开启镜像集群模式 高可用
+
+这种模式，才是所谓的 RabbitMQ 的高可用模式。跟普通集群模式不一样的是，在镜像集群模式下，你创建的 queue，无论元数据还是 queue 里的消息都会存在于多个实例上，就是说，每个 RabbitMQ 节点都有这个 queue 的一个完整镜像，包含 queue 的全部数据的意思。然后每次你写消息到 queue 的时候，都会自动把消息同步到多个实例的 queue 上。
+
+那么如何开启这个镜像集群模式呢？其实很简单，RabbitMQ 有很好的管理控制台，就是在后台新增一个策略，这个策略是镜像集群模式的策略，指定的时候是可以要求数据同步到所有节点的，也可以要求同步到指定数量的节点，再次创建 queue 的时候，应用这个策略，就会自动将数据同步到其他的节点上去了。
+
+这样的话，好处在于，你任何一个机器宕机了，没事儿，其它机器（节点）还包含了这个 queue 的完整数据，别的 consumer 都可以到其它节点上去消费数据。坏处在于，第一，这个性能开销也太大了吧，消息需要同步到所有机器上，导致网络带宽压力和消耗很重！第二，这么玩儿，不是分布式的，就没有扩展性可言了，如果某个 queue 负载很重，你加机器，新增的机器也包含了这个 queue 的所有数据，并没有办法线性扩展你的 queue。你想，如果这个 queue 的数据量很大，大到这个机器上的容量无法容纳了，此时该怎么办呢？
+
+比如你拿个数据要写库，你先根据主键查一下，如果这数据都有了，你就别插入了，update 一下好吧。
+比如你是写 Redis，那没问题了，反正每次都是 set，天然幂等性。
+比如你不是上面两个场景，那做的稍微复杂一点，你需要让生产者发送每条数据的时候，里面加一个全局唯一的 id，类似订单 id 之类的东西，然后你这里消费到了之后，先根据这个 id 去比如 Redis 里查一下，之前消费过吗？如果没有消费过，你就处理，然后这个 id 写 Redis。如果消费过了，那你就别处理了，保证别重复处理相同的消息即可。
+比如基于数据库的唯一键来保证重复数据不会重复插入多条。因为有唯一键约束了，重复数据插入只会报错，不会导致数据库中出现脏数据。
+
+
+消息少了
+
+收到消息后，暂存内存中，没有被消费，服务挂掉了，消息就丢失了。
+消费者消费了消息还没来得及处理，挂掉了，导致mq认为消息已经处理完毕 。
+
+生产者弄丢了数据
+生产者将数据发送到 RabbitMQ 的时候，可能数据就在半路给搞丢了，因为网络问题啥的，都有可能。
+
+此时可以选择用 RabbitMQ 提供的事务功能，就是生产者发送数据之前开启 RabbitMQ 事务channel.txSelect，然后发送消息，如果消息没有成功被 RabbitMQ 接收到，那么生产者会收到异常报错，此时就可以回滚事务channel.txRollback，然后重试发送消息；如果收到了消息，那么可以提交事务channel.txCommit。
+
+// 开启事务
+channel.txSelect
+try {
+    // 这里发送消息
+} catch (Exception e) {
+    channel.txRollback
+
+    // 这里再次重发这条消息
+}
+
+// 提交事务
+channel.txCommit
+但是问题是，RabbitMQ 事务机制（同步）一搞，基本上吞吐量会下来，因为太耗性能。
+
+所以一般来说，如果你要确保说写 RabbitMQ 的消息别丢，可以开启 confirm 模式，在生产者那里设置开启 confirm 模式之后，你每次写的消息都会分配一个唯一的 id，然后如果写入了 RabbitMQ 中，RabbitMQ 会给你回传一个 ack 消息，告诉你说这个消息 ok 了。如果 RabbitMQ 没能处理这个消息，会回调你的一个 nack 接口，告诉你这个消息接收失败，你可以重试。而且你可以结合这个机制自己在内存里维护每个消息 id 的状态，如果超过一定时间还没接收到这个消息的回调，那么你可以重发。
+
+事务机制和 cnofirm 机制最大的不同在于，事务机制是同步的，你提交一个事务之后会阻塞在那儿，但是 confirm 机制是异步的，你发送个消息之后就可以发送下一个消息，然后那个消息 RabbitMQ 接收了之后会异步回调你的一个接口通知你这个消息接收到了。
+
+所以一般在生产者这块避免数据丢失，都是用 confirm 机制的。
+
+
+异步confirm机制
+发送消息到队列，队列收到了则异步调用
+
+RabbitMQ 弄丢了数据
+就是 RabbitMQ 自己弄丢了数据，这个你必须开启 RabbitMQ 的持久化，就是消息写入之后会持久化到磁盘，哪怕是 RabbitMQ 自己挂了，恢复之后会自动读取之前存储的数据，一般数据不会丢。除非极其罕见的是，RabbitMQ 还没持久化，自己就挂了，可能导致少量数据丢失，但是这个概率较小。
+
+创建 queue 的时候将其设置为持久化
+这样就可以保证 RabbitMQ 持久化 queue 的元数据，但是它是不会持久化 queue 里的数据的。
+第二个是发送消息的时候将消息的 deliveryMode 设置为 2
+就是将消息设置为持久化的，此时 RabbitMQ 就会将消息持久化到磁盘上去。
+
+持久化可以跟生产者那边的 confirm 机制配合起来，只有消息被持久化到磁盘之后，才会通知生产者 ack 了，所以哪怕是在持久化到磁盘之前，RabbitMQ 挂了，数据丢了，生产者收不到 ack，你也是可以自己重发的。
+
+
+这样数据基本不会丢失了
+
+
+
+总结
+高可用
+镜像集群，多台机器，同步消息
+消息一致性
+多
+那做的稍微复杂一点，你需要让生产者发送每条数据的时候，里面加一个全局唯一的 id，类似订单 id 之类的东西，然后你这里消费到了之后，先根据这个 id 去比如 Redis 里查一下，之前消费过吗？如果没有消费过，你就处理，然后这个 id 写 Redis。如果消费过了，那你就别处理了，保证别重复处理相同的消息即可。
+
+
+少数据
+生产者
+confirm机制，消费后通知生产者
+
+服务端
+数据持久化
+
+持久化可以跟生产者那边的 confirm 机制配合起来，只有消息被持久化到磁盘之后，才会通知生产者 ack 了，所以哪怕是在持久化到磁盘之前，RabbitMQ 挂了，数据丢了，生产者收不到 ack，你也是可以自己重发的。
+
+消费者
+
+这个时候得用 RabbitMQ 提供的 ack 机制，简单来说，就是你必须关闭 RabbitMQ 的自动 ack，可以通过一个 api 来调用就行，然后每次你自己代码里确保处理完的时候，再在程序里 ack 一把。这样的话，如果你还没处理完，不就没有 ack 了？那 RabbitMQ 就认为你还没处理完，这个时候 RabbitMQ 会把这个消费分配给别的 consumer 去处理，消息是不会丢的。
+
+保证顺序
+RabbitMQ
+拆分多个 queue，每个 queue 一个 consumer，就是多一些 queue 而已，确实是麻烦点；或者就一个 queue 但是对应一个 consumer，然后这个 consumer 内部用内存队列做排队，然后分发给底层不同的 worker 来处理。 
+1、单线程消费来保证消息的顺序性；2、对消息进行编号，消费者处理时根据编号判断顺序。 
+
+如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时，说说怎么解决？
+
+你看这问法，其实本质针对的场景，都是说，可能你的消费端出了问题，不消费了；或者消费的速度极其慢。接着就坑爹了，可能你的消息队列集群的磁盘都快写满了，都没人消费，这个时候怎么办？或者是这整个就积压了几个小时，你这个时候怎么办？或者是你积压的时间太长了，导致比如 RabbitMQ 设置了消息过期时间后就没了怎么办？
+
+所以就这事儿，其实线上挺常见的，一般不出，一出就是大 case。一般常见于，举个例子，消费端每次消费之后要写 mysql，结果 mysql 挂了，消费端 hang 那儿了，不动了；或者是消费端出了个什么岔子，导致消费速度极其慢。
+
+
+先修复 consumer 的问题，确保其恢复消费速度，然后将现有 consumer 都停掉。
+新建一个 topic，partition 是原来的 10 倍，临时建立好原先 10 倍的 queue 数量。
+然后写一个临时的分发数据的 consumer 程序，这个程序部署上去消费积压的数据，消费之后不做耗时的处理，直接均匀轮询写入临时建立好的 10 倍数量的 queue。
+接着临时征用 10 倍的机器来部署 consumer，每一批 consumer 消费一个临时 queue 的数据。这种做法相当于是临时将 queue 资源和 consumer 资源扩大 10 倍，以正常的 10 倍速度来消费数据。
+等快速消费完积压数据之后，得恢复原先部署的架构，重新用原先的 consumer 机器来消费消息。
+
+mq 中的消息过期失效了
+假设你用的是 RabbitMQ，RabbtiMQ 是可以设置过期时间的，也就是 TTL。如果消息在 queue 中积压超过一定的时间就会被 RabbitMQ 给清理掉，这个数据就没了。那这就是第二个坑了。这就不是说数据会大量积压在 mq 里，而是大量的数据会直接搞丢。
+
+这个情况下，就不是说要增加 consumer 消费积压的消息，因为实际上没啥积压，而是丢了大量的消息。我们可以采取一个方案，就是批量重导，这个我们之前线上也有类似的场景干过。就是大量积压的时候，我们当时就直接丢弃数据了，然后等过了高峰期以后，比如大家一起喝咖啡熬夜到晚上12点以后，用户都睡觉了。这个时候我们就开始写程序，将丢失的那批数据，写个临时程序，一点一点的查出来，然后重新灌入 mq 里面去，把白天丢的数据给他补回来。也只能是这样了。
+
+假设 1 万个订单积压在 mq 里面，没有处理，其中 1000 个订单都丢了，你只能手动写程序把那 1000 个订单给查出来，手动发到 mq 里去再补一次。
+
+
+Doule 对象直接用  == 比较，比较的是地址
+
+
+
