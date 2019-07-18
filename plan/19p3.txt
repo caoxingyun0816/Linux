@@ -1407,3 +1407,5 @@ Redis
 具有丰富的数据类型，这个上面已经提过了
 Redis所有操作都是原子的，意思是要么成功执行要么失败完全不执行，多个操作也支持事务
 丰富的特性，比如Redis支持publish/subscribe、notify、key过期等
+
+安装Redis

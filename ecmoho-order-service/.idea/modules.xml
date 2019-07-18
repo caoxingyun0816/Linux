@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ecmoho-order-facade/ecmoho-order-facade.iml" filepath="$PROJECT_DIR$/ecmoho-order-facade/ecmoho-order-facade.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ecmoho-order-service/ecmoho-order-service.iml" filepath="$PROJECT_DIR$/ecmoho-order-service/ecmoho-order-service.iml" />
+    </modules>
+  </component>
+</project>
